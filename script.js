@@ -64,9 +64,9 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
         // Daten an Firebase senden
         try {
             const docRef = await addDoc(collection(db, "requests"), {
-                name: userName,
-                email: userEmail,
-                website: userWebsite,
+                userName: userName,
+                userEmail: userEmail,
+                userWebsite: userWebsite,
                 packageCost: packageCost,
                 numKeywords: numKeywords,
                 industryMultiplier: industryMultiplier,
