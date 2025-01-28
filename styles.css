@@ -109,8 +109,8 @@ button:active {
 /* Pop-up Message */
 #popupMessage {
     display: none;
-    background-color: rgba(0, 115, 230, 0.9);
-    color: #fff;
+    background-color: rgba(0, 115, 230, 0.9); /* Hintergrund bleibt blau */
+    color: #fff; /* Textfarbe auf Weiß geändert */
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -121,7 +121,7 @@ button:active {
 
 #popupMessage button {
     margin-top: 10px;
-    background-color: #ff6347; /* Red button to close popup */
+    background-color: #ff6347; /* Roter Button zum Schließen */
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -131,6 +131,7 @@ button:active {
 #popupMessage button:hover {
     background-color: #e53e36;
 }
+
 
 /* Anfrageformular - Initially hidden */
 #requestForm {
