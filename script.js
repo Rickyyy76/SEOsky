@@ -1,3 +1,4 @@
+// Event Listener für den Calculate-Button
 document.getElementById('calculateButton').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -48,4 +49,77 @@ document.getElementById('calculateButton').addEventListener('click', function (e
         Feel free to contact us to discuss our offers! 💬<br />
         Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.
     `;
+});
+
+// Event Listener für den Analyze-Button
+document.getElementById('analyzeButton').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // URL aus dem Eingabefeld holen
+    const url = document.getElementById('websiteUrl').value;
+
+    if (!url) {
+        alert("Please enter a website URL.");
+        return;
+    }
+
+    // Anfrage an die Netlify-Funktion senden (die auf den PageSpeed API zugreift)
+    fetch(`/api/pagespeed?url=${encodeURIComponent(url)}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
+
+            // Hier kannst du die PageSpeed-Daten anzeigen
+            // Beispiel für Performance Score und andere Metriken:
+            const resultElement = document.getElementById('pageSpeedResult');
+            resultElement.innerHTML = `
+                <h3>PageSpeed Insights Results</h3>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance Score</strong></td>
+                        <td>${(data.lighthouseResult.categories.performance.score * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>First Contentful Paint (FCP)</strong></td>
+                        <td>${(data.lighthouseResult.audits['first-contentful-paint'].displayValue)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Largest Contentful Paint (LCP)</strong></td>
+                        <td>${(data.lighthouseResult.audits['largest-contentful-paint'].displayValue)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Blocking Time (TBT)</strong></td>
+                        <td>${(data.lighthouseResult.audits['total-blocking-time'].displayValue)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speed Index</strong></td>
+                        <td>${(data.lighthouseResult.audits['speed-index'].displayValue)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time to Interactive (TTI)</strong></td>
+                        <td>${(data.lighthouseResult.audits['interactive'].displayValue)}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SEO Score</strong></td>
+                        <td>${(data.lighthouseResult.categories.seo.score * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accessibility Score</strong></td>
+                        <td>${(data.lighthouseResult.categories.accessibility.score * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best Practices Score</strong></td>
+                        <td>${(data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2)}%</td>
+                    </tr>
+                </table>
+            `;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred. Please try again.");
+        });
 });
