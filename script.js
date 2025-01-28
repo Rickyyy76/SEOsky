@@ -99,64 +99,58 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                // PageSpeed-Daten extrahieren
-                const performanceScore = (data.lighthouseResult.categories.performance ? (data.lighthouseResult.categories.performance.score * 100).toFixed(2) : 'N/A');
-                const fcp = data.lighthouseResult.audits['first-contentful-paint'] ? data.lighthouseResult.audits['first-contentful-paint'].displayValue : 'N/A';
-                const lcp = data.lighthouseResult.audits['largest-contentful-paint'] ? data.lighthouseResult.audits['largest-contentful-paint'].displayValue : 'N/A';
-                const tbt = data.lighthouseResult.audits['total-blocking-time'] ? data.lighthouseResult.audits['total-blocking-time'].displayValue : 'N/A';
-                const speedIndex = data.lighthouseResult.audits['speed-index'] ? data.lighthouseResult.audits['speed-index'].displayValue : 'N/A';
-                const tti = data.lighthouseResult.audits['interactive'] ? data.lighthouseResult.audits['interactive'].displayValue : 'N/A';
-                const seoScore = (data.lighthouseResult.categories.seo ? (data.lighthouseResult.categories.seo.score * 100).toFixed(2) : 'N/A');
-                const accessibilityScore = (data.lighthouseResult.categories.accessibility ? (data.lighthouseResult.categories.accessibility.score * 100).toFixed(2) : 'N/A');
-                const bestPracticesScore = (data.lighthouseResult.categories['best-practices'] ? (data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2) : 'N/A');
+                // Alle Audits extrahieren
+                const audits = data.lighthouseResult.audits;
+                const categories = data.lighthouseResult.categories;
 
-                // Hier kannst du die PageSpeed-Daten anzeigen
-                const resultElement = document.getElementById('pageSpeedData');
-                resultElement.innerHTML = `
-                    <h3>PageSpeed Insights Results</h3>
-                    <table>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Value</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Performance Score</strong></td>
-                            <td>${performanceScore}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>First Contentful Paint (FCP)</strong></td>
-                            <td>${fcp}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Largest Contentful Paint (LCP)</strong></td>
-                            <td>${lcp}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Total Blocking Time (TBT)</strong></td>
-                            <td>${tbt}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Speed Index</strong></td>
-                            <td>${speedIndex}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Time to Interactive (TTI)</strong></td>
-                            <td>${tti}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SEO Score</strong></td>
-                            <td>${seoScore}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Accessibility Score</strong></td>
-                            <td>${accessibilityScore}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Best Practices Score</strong></td>
-                            <td>${bestPracticesScore}%</td>
-                        </tr>
-                    </table>
+                let detailedDataHtml = `<h3>PageSpeed Insights Results</h3>`;
+
+                // Alle Audits dynamisch anzeigen
+                detailedDataHtml += `<h4>Audits:</h4><ul>`;
+                for (const auditKey in audits) {
+                    const audit = audits[auditKey];
+                    detailedDataHtml += `
+                        <li>
+                            <strong>${audit.title}:</strong> ${audit.displayValue || 'No data available'}
+                            <br><em>${audit.description}</em>
+                        </li>
+                    `;
+                }
+                detailedDataHtml += `</ul>`;
+
+                // Alle Kategorien anzeigen (z. B. Performance, SEO, Accessibility, etc.)
+                detailedDataHtml += `<h4>Categories:</h4><ul>`;
+                for (const categoryKey in categories) {
+                    const category = categories[categoryKey];
+                    detailedDataHtml += `
+                        <li>
+                            <strong>${category.title}:</strong> ${category.score * 100}% 
+                            <br><em>${category.description}</em>
+                        </li>
+                    `;
+                }
+                detailedDataHtml += `</ul>`;
+
+                // Weiterhin spezifische Metriken anzeigen
+                const performanceScore = (categories.performance ? (categories.performance.score * 100).toFixed(2) : 'N/A');
+                const seoScore = (categories.seo ? (categories.seo.score * 100).toFixed(2) : 'N/A');
+                const accessibilityScore = (categories.accessibility ? (categories.accessibility.score * 100).toFixed(2) : 'N/A');
+                const bestPracticesScore = (categories['best-practices'] ? (categories['best-practices'].score * 100).toFixed(2) : 'N/A');
+
+                detailedDataHtml += `
+                    <h4>General Scores:</h4>
+                    <ul>
+                        <li><strong>Performance Score:</strong> ${performanceScore}%</li>
+                        <li><strong>SEO Score:</strong> ${seoScore}%</li>
+                        <li><strong>Accessibility Score:</strong> ${accessibilityScore}%</li>
+                        <li><strong>Best Practices Score:</strong> ${bestPracticesScore}%</li>
+                    </ul>
                 `;
+
+                // Anzeige der vollständigen Daten
+                const resultElement = document.getElementById('pageSpeedData');
+                resultElement.innerHTML = detailedDataHtml;
+
                 // Zeige die PageSpeed-Ergebnisse an
                 document.getElementById('pagespeedResult').style.display = 'block';
             })
