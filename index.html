@@ -128,6 +128,25 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- PageSpeed Insights Integration -->
+        <div class="pagespeed-card">
+            <h2>🔍 Check Your PageSpeed</h2>
+            <p>Analyze your website's performance using Google PageSpeed Insights! 🌐</p>
+            <form id="pagespeedForm">
+                <div class="input-group">
+                    <label for="shopUrl">Enter your shop's URL:</label>
+                    <input type="text" id="shopUrl" placeholder="https://example.com" required>
+                </div>
+                <button type="button" id="checkPagespeed">🚀 Analyze</button>
+            </form>
+            <div id="pagespeedResult" style="display: none;">
+                <h3>🚀 PageSpeed Insights Results:</h3>
+                <p id="score"></p>
+                <p id="firstContentfulPaint"></p>
+                <p id="largestContentfulPaint"></p>
+            </div>
+        </div>
     </div>
 
     <!-- Footer with Social Links -->
