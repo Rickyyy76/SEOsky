@@ -52,7 +52,7 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
     document.getElementById('contactForm').style.display = "block"; // Kontaktformular anzeigen
 
     // Button "Anfrage senden" zum Versenden der Daten
-    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    document.getElementById('contactFormDetails').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         // Eingabewerte des Anfrageformulars abrufen
