@@ -74,24 +74,10 @@
                 <button type="button" id="calculateButton">🧮 Calculate Cost</button>
             </form>
 
-            <!-- Contact Form (Initially hidden) -->
-            <div id="contactForm" class="contact-form" style="display: none;">
-                <h2>📩 Send us your details</h2>
-                <form id="contactFormDetails">
-                    <div class="input-group">
-                        <label for="name">Your Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="email">Your Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="message">Your Message:</label>
-                        <textarea id="message" name="message" placeholder="Any additional information?" rows="4"></textarea>
-                    </div>
-                    <button type="submit">Send Request</button>
-                </form>
+            <!-- Message Popup (Initially hidden) -->
+            <div id="popupMessage" style="display: none; font-weight: bold; color: #0073e6; margin-top: 20px;">
+                <p>🎉 Your calculation is complete! 🚀</p>
+                <p>Feel free to contact us to discuss our offers! 💬</p>
             </div>
         </div>
 
@@ -147,13 +133,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <!-- Pop-up Message (Initially hidden) -->
-    <div id="popupMessage" class="popup-message" style="display: none;">
-        <p>🎉 Your calculation is complete! 🚀</p>
-        <p>Feel free to contact us to discuss our offers! 💬</p>
-        <button id="closePopup">❌ Close</button>
     </div>
 
     <!-- Footer with Social Links -->
