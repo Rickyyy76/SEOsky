@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-// Event-Listener für das Berechnungsformular
+// Event-Listener für den "Calculate Cost"-Button
 document.getElementById('calculateButton').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -28,7 +28,6 @@ document.getElementById('calculateButton').addEventListener('click', function (e
     let numKeywords = parseInt(document.getElementById('numKeywords').value) || 0;
     const industryMultiplier = parseFloat(document.getElementById('industry').value);
     const rankingMultiplier = parseFloat(document.getElementById('rankingPosition').value);
-    const userWebsite = document.getElementById('userWebsite').value; // Website des Benutzers
 
     // Wenn das Feld für die Keywords leer ist, setzen wir es basierend auf dem Paket
     if (numKeywords === 0) {
@@ -46,45 +45,11 @@ document.getElementById('calculateButton').addEventListener('click', function (e
     const totalCost = (packageCost + additionalCost) * industryMultiplier * rankingMultiplier;
 
     // Ergebnis anzeigen
-    document.getElementById('estimatedCost').textContent = `$${totalCost.toFixed(2)}`;
+    const resultElement = document.getElementById('estimatedCost');
+    resultElement.textContent = `$${totalCost.toFixed(2)}`;
 
-    // Anzeige des Anfrageformulars und des Buttons zum Senden der Anfrage
-    document.getElementById('result').style.display = "block"; // Preis anzeigen
-    document.getElementById('popupMessage').style.display = "block"; // Pop-up anzeigen
-
-    // Pop-up schließen
-    document.getElementById('closePopup').addEventListener('click', function() {
-        document.getElementById('popupMessage').style.display = "none"; // Pop-up ausblenden
-    });
-
-    // Button "Anfrage senden" zum Versenden der Daten
-    document.getElementById('contactFormDetails').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        // Eingabewerte des Anfrageformulars abrufen
-        const contactName = document.getElementById('name').value;
-        const contactEmail = document.getElementById('email').value;
-        const contactMessage = document.getElementById('message').value;
-
-        // Daten an Firebase senden
-        try {
-            const docRef = await addDoc(collection(db, "requests"), {
-                contactName: contactName,
-                contactEmail: contactEmail,
-                contactMessage: contactMessage,
-                userWebsite: userWebsite,
-                packageCost: packageCost,
-                numKeywords: numKeywords,
-                industryMultiplier: industryMultiplier,
-                rankingMultiplier: rankingMultiplier,
-                totalCost: totalCost.toFixed(2),
-                timestamp: new Date(),
-            });
-            console.log("Daten erfolgreich gespeichert mit ID: ", docRef.id);
-            alert("Your request has been successfully submitted!");
-        } catch (error) {
-            console.error("Error saving data: ", error);
-            alert("There was an error submitting your request. Please try again.");
-        }
-    });
+    // Anzeige der Nachricht, dass man sich melden kann
+    const popupMessage = document.getElementById('popupMessage');
+    popupMessage.style.display = "block";
+    popupMessage.textContent = "Please contact us to discuss offers!";
 });
