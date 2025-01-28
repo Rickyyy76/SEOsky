@@ -13,7 +13,7 @@ exports.handler = async function(event, context) {
     };
   }
 
-  const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&key=${API_KEY}`;
+  const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&key=${API_KEYS}`;
 
   try {
     const response = await axios.get(apiUrl);
