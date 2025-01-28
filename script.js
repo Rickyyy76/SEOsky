@@ -71,67 +71,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // API-Aufruf zur PageSpeed Insights API
         fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
-            .then(response => response.json())
-            .then(data => {
-                // Ladeanzeige deaktivieren
-                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+    .then(response => response.json())
+    .then(data => {
+        console.log('API Response:', data); // Ausgabe der gesamten Antwort
+        // Ladeanzeige deaktivieren
+        loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
 
-                console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
+        // Wenn die Struktur korrekt ist, kannst du dann auf die Daten zugreifen
+        const resultElement = document.getElementById('pageSpeedData');
+        resultElement.innerHTML = `
+            <h3>PageSpeed Insights Results</h3>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td><strong>Performance Score</strong></td>
+                    <td>${(data.lighthouseResult?.categories?.performance?.score ? (data.lighthouseResult.categories.performance.score * 100).toFixed(2) : 'N/A')}%</td>
+                </tr>
+                <tr>
+                    <td><strong>First Contentful Paint (FCP)</strong></td>
+                    <td>${(data.lighthouseResult?.audits?.['first-contentful-paint']?.displayValue || 'N/A')}</td>
+                </tr>
+                <tr>
+                    <td><strong>Largest Contentful Paint (LCP)</strong></td>
+                    <td>${(data.lighthouseResult?.audits?.['largest-contentful-paint']?.displayValue || 'N/A')}</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Blocking Time (TBT)</strong></td>
+                    <td>${(data.lighthouseResult?.audits?.['total-blocking-time']?.displayValue || 'N/A')}</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed Index</strong></td>
+                    <td>${(data.lighthouseResult?.audits?.['speed-index']?.displayValue || 'N/A')}</td>
+                </tr>
+                <tr>
+                    <td><strong>Time to Interactive (TTI)</strong></td>
+                    <td>${(data.lighthouseResult?.audits?.['interactive']?.displayValue || 'N/A')}</td>
+                </tr>
+                <tr>
+                    <td><strong>SEO Score</strong></td>
+                    <td>${(data.lighthouseResult?.categories?.seo?.score ? (data.lighthouseResult.categories.seo.score * 100).toFixed(2) : 'N/A')}%</td>
+                </tr>
+                <tr>
+                    <td><strong>Accessibility Score</strong></td>
+                    <td>${(data.lighthouseResult?.categories?.accessibility?.score ? (data.lighthouseResult.categories.accessibility.score * 100).toFixed(2) : 'N/A')}%</td>
+                </tr>
+                <tr>
+                    <td><strong>Best Practices Score</strong></td>
+                    <td>${(data.lighthouseResult?.categories?.['best-practices']?.score ? (data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2) : 'N/A')}%</td>
+                </tr>
+            </table>
+        `;
+    })
+    .catch(error => {
+        // Ladeanzeige deaktivieren
+        loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
 
-                // Hier kannst du die PageSpeed-Daten anzeigen
-                const resultElement = document.getElementById('pageSpeedData');
-                resultElement.innerHTML = `
-                    <h3>PageSpeed Insights Results</h3>
-                    <table>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Value</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Performance Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.performance.score * 100).toFixed(2)}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>First Contentful Paint (FCP)</strong></td>
-                            <td>${(data.lighthouseResult.audits['first-contentful-paint'].displayValue)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Largest Contentful Paint (LCP)</strong></td>
-                            <td>${(data.lighthouseResult.audits['largest-contentful-paint'].displayValue)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Total Blocking Time (TBT)</strong></td>
-                            <td>${(data.lighthouseResult.audits['total-blocking-time'].displayValue)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Speed Index</strong></td>
-                            <td>${(data.lighthouseResult.audits['speed-index'].displayValue)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Time to Interactive (TTI)</strong></td>
-                            <td>${(data.lighthouseResult.audits['interactive'].displayValue)}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SEO Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.seo.score * 100).toFixed(2)}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Accessibility Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.accessibility.score * 100).toFixed(2)}%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Best Practices Score</strong></td>
-                            <td>${(data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2)}%</td>
-                        </tr>
-                    </table>
-                `;
-            })
-            .catch(error => {
-                // Ladeanzeige deaktivieren
-                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
-
-                console.error('Error:', error);
-                alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
-            });
+        console.error('Error:', error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
     });
-});
