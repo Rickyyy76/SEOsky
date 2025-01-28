@@ -60,11 +60,32 @@
                     </div>
                 </div>
                 
-                <button type="submit">🧮 Calculate Cost</button>
+                <button type="button" id="calculateButton">🧮 Calculate Cost</button>
             </form>
+            
             <!-- Result Display -->
-            <div id="result" class="result">
+            <div id="result" class="result" style="display: none;">
                 <h2>💵 Estimated SEO Cost: <span id="estimatedCost">$0</span></h2>
+            </div>
+
+            <!-- Contact Form (Initially hidden) -->
+            <div id="contactForm" class="contact-form" style="display: none;">
+                <h2>📩 Send us your details</h2>
+                <form id="contactFormDetails">
+                    <div class="input-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Your Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" placeholder="Any additional information?" rows="4"></textarea>
+                    </div>
+                    <button type="submit">Send Request</button>
+                </form>
             </div>
         </div>
 
@@ -131,4 +152,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
