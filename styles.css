@@ -97,11 +97,37 @@ button:active {
 }
 
 /* Result Section */
-.result {
+#result {
     margin-top: 20px;
     font-size: 1.5rem;
     color: #0073e6;
     font-weight: 600;
+}
+
+/* Pop-up Message */
+#popupMessage {
+    display: none;
+    background-color: rgba(0, 115, 230, 0.9);
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+#popupMessage button {
+    margin-top: 10px;
+    background-color: #ff6347; /* Red button to close popup */
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#popupMessage button:hover {
+    background-color: #e53e36;
 }
 
 /* Anfrageformular - Initially hidden */
