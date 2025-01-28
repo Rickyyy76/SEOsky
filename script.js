@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
                 Feel free to contact us to discuss our offers! 💬<br />
                 Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.`;
-            
+
             // Zeige die detaillierten Berechnungsdaten an
             const detailsElement = document.getElementById('calculationDetails');
             detailsElement.innerHTML = `
@@ -93,7 +93,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Ladeanzeige deaktivieren
                 loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
 
-                console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
+                // Wenn keine Daten vorhanden sind
+                if (!data.lighthouseResult) {
+                    alert("Keine PageSpeed-Daten verfügbar.");
+                    return;
+                }
 
                 // Hier kannst du die PageSpeed-Daten anzeigen
                 const resultElement = document.getElementById('pageSpeedData');
@@ -142,6 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>
                     </table>
                 `;
+                // Zeige die PageSpeed-Ergebnisse an
+                document.getElementById('pagespeedResult').style.display = 'block';
             })
             .catch(error => {
                 // Ladeanzeige deaktivieren
