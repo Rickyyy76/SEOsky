@@ -127,7 +127,7 @@ button:active {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow-x: auto;  /* Aktiviert horizontalen Scrollbalken */
+    overflow-x: auto;
     margin-bottom: 40px;
 }
 
@@ -139,7 +139,7 @@ button:active {
 
 table {
     width: 100%;
-    table-layout: fixed; /* Sorgt für feste Spaltenbreite */
+    table-layout: fixed;
     max-width: 100%;
 }
 
@@ -175,18 +175,23 @@ td {
     .calculator-card, .package-table {
         padding: 15px;
     }
+
     h1 {
         font-size: 2rem;
     }
+
     h2 {
         font-size: 1.5rem;
     }
+
     table {
         font-size: 1rem;
     }
+
     input, select, button {
         padding: 10px;
     }
+
     th, td {
         font-size: 0.9rem;
     }
@@ -209,4 +214,33 @@ td {
     .container {
         padding: 10px;
     }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+
+/* Footer Section */
+.footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.footer a {
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 10px;
+    display: inline-block;
+}
+
+.footer a:hover {
+    color: #005bb5;
 }
