@@ -1,11 +1,36 @@
-document.getElementById('seoCalculator').addEventListener('submit', function(event) {
+// Firebase SDK importieren
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
+
+// Firebase-Konfiguration
+const firebaseConfig = {
+  apiKey: "AIzaSyBenK4-6j2IPbHyUsZNbK9Ef5ACPLezSNY",
+  authDomain: "seosky-19263.firebaseapp.com",
+  projectId: "seosky-19263",
+  storageBucket: "seosky-19263.firebasestorage.app",
+  messagingSenderId: "14660666712",
+  appId: "1:14660666712:web:3fc7a264e12bd0cd08512d",
+  measurementId: "G-YC0ENCYZCT",
+};
+
+// Firebase initialisieren
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+// Event-Listener für das Berechnungsformular
+document.getElementById('seoCalculator').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    // Get input values
+    // Eingabewerte abrufen
     const packageCost = parseFloat(document.getElementById('package').value);
     let numKeywords = parseInt(document.getElementById('numKeywords').value) || 0;
     const industryMultiplier = parseFloat(document.getElementById('industry').value);
     const rankingMultiplier = parseFloat(document.getElementById('rankingPosition').value);
+    const userName = document.getElementById('userName').value; // Name des Benutzers
+    const userEmail = document.getElementById('userEmail').value; // E-Mail des Benutzers
+    const userWebsite = document.getElementById('userWebsite').value; // Website des Benutzers
 
     // Wenn das Feld für die Keywords leer ist, setzen wir es basierend auf dem Paket
     if (numKeywords === 0) {
@@ -18,10 +43,45 @@ document.getElementById('seoCalculator').addEventListener('submit', function(eve
         }
     }
 
-    // Calculate total cost (Zusätzliche Kosten für Keywords falls nötig)
+    // Berechnung der Gesamtkosten (Zusätzliche Kosten für Keywords falls nötig)
     const additionalCost = numKeywords * 10; // $10 pro Keyword
     const totalCost = (packageCost + additionalCost) * industryMultiplier * rankingMultiplier;
 
-    // Display the result
+    // Ergebnis anzeigen
     document.getElementById('estimatedCost').textContent = `$${totalCost.toFixed(2)}`;
+
+    // Anzeige des Anfrageformulars und des Buttons zum Senden der Anfrage
+    document.getElementById('requestForm').style.display = "block";
+    document.getElementById('sendQuery').style.display = "block";
+
+    // Button "Anfrage senden" zum Versenden der Daten
+    document.getElementById('sendQuery').addEventListener('click', async function () {
+        // Eingabewerte des Anfrageformulars abrufen
+        const contactName = document.getElementById('name').value;
+        const contactEmail = document.getElementById('email').value;
+        const contactWebsite = document.getElementById('website').value;
+
+        // Daten an Firebase senden
+        try {
+            const docRef = await addDoc(collection(db, "requests"), {
+                name: userName,
+                email: userEmail,
+                website: userWebsite,
+                packageCost: packageCost,
+                numKeywords: numKeywords,
+                industryMultiplier: industryMultiplier,
+                rankingMultiplier: rankingMultiplier,
+                totalCost: totalCost.toFixed(2),
+                contactName: contactName,
+                contactEmail: contactEmail,
+                contactWebsite: contactWebsite,
+                timestamp: new Date(),
+            });
+            console.log("Daten erfolgreich gespeichert mit ID: ", docRef.id);
+            alert("Deine Anfrage wurde erfolgreich übermittelt!");
+        } catch (error) {
+            console.error("Fehler beim Speichern der Daten: ", error);
+            alert("Es gab einen Fehler bei der Übermittlung. Bitte versuche es erneut.");
+        }
+    });
 });
