@@ -57,82 +57,86 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event Listener für den Analyze-Button
     document.getElementById('checkPagespeed').addEventListener('click', function (event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    // URL aus dem Eingabefeld holen
-    const url = document.getElementById('shopUrl').value;
+        // URL aus dem Eingabefeld holen
+        const url = document.getElementById('shopUrl').value;
 
-    if (!url) {
-        alert("Bitte gib eine URL ein.");
-        return;
-    }
+        if (!url) {
+            alert("Bitte gib eine URL ein.");
+            return;
+        }
 
-    // Ladeanzeige aktivieren
-    const loadingMessage = document.getElementById('loadingMessage');
-    loadingMessage.style.display = "block"; // Ladeanzeige anzeigen
+        // Ladeanzeige aktivieren
+        const loadingMessage = document.getElementById('loadingMessage');
+        loadingMessage.style.display = "block"; // Ladeanzeige anzeigen
 
-    // Anfrage an die Netlify-Funktion senden (die auf die PageSpeed API zugreift)
-    fetch(`/api/pagespeed?url=${encodeURIComponent(url)}`)
-        .then(response => response.json())
-        .then(data => {
-            // Ladeanzeige deaktivieren
-            loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+        // URL für die öffentliche PageSpeed Insights API-Anfrage ohne API-Schlüssel
+        const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}`;
 
-            console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
+        // Anfrage an die öffentliche API senden
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Ladeanzeige deaktivieren
+                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
 
-            // Hier kannst du die PageSpeed-Daten anzeigen
-            const resultElement = document.getElementById('pageSpeedData');
-            resultElement.innerHTML = `
-                <h3>PageSpeed Insights Results</h3>
-                <table>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Value</th>
-                    </tr>
-                    <tr>
-                        <td><strong>Performance Score</strong></td>
-                        <td>${(data.lighthouseResult.categories.performance.score * 100).toFixed(2)}%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>First Contentful Paint (FCP)</strong></td>
-                        <td>${(data.lighthouseResult.audits['first-contentful-paint'].displayValue)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Largest Contentful Paint (LCP)</strong></td>
-                        <td>${(data.lighthouseResult.audits['largest-contentful-paint'].displayValue)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total Blocking Time (TBT)</strong></td>
-                        <td>${(data.lighthouseResult.audits['total-blocking-time'].displayValue)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Speed Index</strong></td>
-                        <td>${(data.lighthouseResult.audits['speed-index'].displayValue)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Time to Interactive (TTI)</strong></td>
-                        <td>${(data.lighthouseResult.audits['interactive'].displayValue)}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SEO Score</strong></td>
-                        <td>${(data.lighthouseResult.categories.seo.score * 100).toFixed(2)}%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Accessibility Score</strong></td>
-                        <td>${(data.lighthouseResult.categories.accessibility.score * 100).toFixed(2)}%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Best Practices Score</strong></td>
-                        <td>${(data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2)}%</td>
-                    </tr>
-                </table>
-            `;
-        })
-        .catch(error => {
-            // Ladeanzeige deaktivieren
-            loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+                console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
 
-            console.error('Error:', error);
-            alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
-        });
+                // Hier kannst du die PageSpeed-Daten anzeigen
+                const resultElement = document.getElementById('pageSpeedData');
+                resultElement.innerHTML = `
+                    <h3>PageSpeed Insights Results</h3>
+                    <table>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance Score</strong></td>
+                            <td>${(data.lighthouseResult.categories.performance.score * 100).toFixed(2)}%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>First Contentful Paint (FCP)</strong></td>
+                            <td>${(data.lighthouseResult.audits['first-contentful-paint'].displayValue)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Largest Contentful Paint (LCP)</strong></td>
+                            <td>${(data.lighthouseResult.audits['largest-contentful-paint'].displayValue)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Blocking Time (TBT)</strong></td>
+                            <td>${(data.lighthouseResult.audits['total-blocking-time'].displayValue)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed Index</strong></td>
+                            <td>${(data.lighthouseResult.audits['speed-index'].displayValue)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time to Interactive (TTI)</strong></td>
+                            <td>${(data.lighthouseResult.audits['interactive'].displayValue)}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SEO Score</strong></td>
+                            <td>${(data.lighthouseResult.categories.seo.score * 100).toFixed(2)}%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accessibility Score</strong></td>
+                            <td>${(data.lighthouseResult.categories.accessibility.score * 100).toFixed(2)}%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best Practices Score</strong></td>
+                            <td>${(data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2)}%</td>
+                        </tr>
+                    </table>
+                `;
+            })
+            .catch(error => {
+                // Ladeanzeige deaktivieren
+                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+
+                console.error('Error:', error);
+                alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+            });
+    });
 });
