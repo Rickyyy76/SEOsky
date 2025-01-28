@@ -99,6 +99,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
+                // PageSpeed-Daten extrahieren
+                const performanceScore = (data.lighthouseResult.categories.performance ? (data.lighthouseResult.categories.performance.score * 100).toFixed(2) : 'N/A');
+                const fcp = data.lighthouseResult.audits['first-contentful-paint'] ? data.lighthouseResult.audits['first-contentful-paint'].displayValue : 'N/A';
+                const lcp = data.lighthouseResult.audits['largest-contentful-paint'] ? data.lighthouseResult.audits['largest-contentful-paint'].displayValue : 'N/A';
+                const tbt = data.lighthouseResult.audits['total-blocking-time'] ? data.lighthouseResult.audits['total-blocking-time'].displayValue : 'N/A';
+                const speedIndex = data.lighthouseResult.audits['speed-index'] ? data.lighthouseResult.audits['speed-index'].displayValue : 'N/A';
+                const tti = data.lighthouseResult.audits['interactive'] ? data.lighthouseResult.audits['interactive'].displayValue : 'N/A';
+                const seoScore = (data.lighthouseResult.categories.seo ? (data.lighthouseResult.categories.seo.score * 100).toFixed(2) : 'N/A');
+                const accessibilityScore = (data.lighthouseResult.categories.accessibility ? (data.lighthouseResult.categories.accessibility.score * 100).toFixed(2) : 'N/A');
+                const bestPracticesScore = (data.lighthouseResult.categories['best-practices'] ? (data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2) : 'N/A');
+
                 // Hier kannst du die PageSpeed-Daten anzeigen
                 const resultElement = document.getElementById('pageSpeedData');
                 resultElement.innerHTML = `
@@ -110,39 +121,39 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>
                         <tr>
                             <td><strong>Performance Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.performance ? (data.lighthouseResult.categories.performance.score * 100).toFixed(2) : 'N/A')}%</td>
+                            <td>${performanceScore}%</td>
                         </tr>
                         <tr>
                             <td><strong>First Contentful Paint (FCP)</strong></td>
-                            <td>${(data.lighthouseResult.audits['first-contentful-paint'] ? data.lighthouseResult.audits['first-contentful-paint'].displayValue : 'N/A')}</td>
+                            <td>${fcp}</td>
                         </tr>
                         <tr>
                             <td><strong>Largest Contentful Paint (LCP)</strong></td>
-                            <td>${(data.lighthouseResult.audits['largest-contentful-paint'] ? data.lighthouseResult.audits['largest-contentful-paint'].displayValue : 'N/A')}</td>
+                            <td>${lcp}</td>
                         </tr>
                         <tr>
                             <td><strong>Total Blocking Time (TBT)</strong></td>
-                            <td>${(data.lighthouseResult.audits['total-blocking-time'] ? data.lighthouseResult.audits['total-blocking-time'].displayValue : 'N/A')}</td>
+                            <td>${tbt}</td>
                         </tr>
                         <tr>
                             <td><strong>Speed Index</strong></td>
-                            <td>${(data.lighthouseResult.audits['speed-index'] ? data.lighthouseResult.audits['speed-index'].displayValue : 'N/A')}</td>
+                            <td>${speedIndex}</td>
                         </tr>
                         <tr>
                             <td><strong>Time to Interactive (TTI)</strong></td>
-                            <td>${(data.lighthouseResult.audits['interactive'] ? data.lighthouseResult.audits['interactive'].displayValue : 'N/A')}</td>
+                            <td>${tti}</td>
                         </tr>
                         <tr>
                             <td><strong>SEO Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.seo ? (data.lighthouseResult.categories.seo.score * 100).toFixed(2) : 'N/A')}%</td>
+                            <td>${seoScore}%</td>
                         </tr>
                         <tr>
                             <td><strong>Accessibility Score</strong></td>
-                            <td>${(data.lighthouseResult.categories.accessibility ? (data.lighthouseResult.categories.accessibility.score * 100).toFixed(2) : 'N/A')}%</td>
+                            <td>${accessibilityScore}%</td>
                         </tr>
                         <tr>
                             <td><strong>Best Practices Score</strong></td>
-                            <td>${(data.lighthouseResult.categories['best-practices'] ? (data.lighthouseResult.categories['best-practices'].score * 100).toFixed(2) : 'N/A')}%</td>
+                            <td>${bestPracticesScore}%</td>
                         </tr>
                     </table>
                 `;
