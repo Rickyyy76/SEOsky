@@ -3,7 +3,7 @@
 const axios = require('axios');
 
 exports.handler = async function(event, context) {
-  const { API_KEY } = process.env;  // API-Schlüssel aus den Umgebungsvariablen
+  const { API_KEYS } = process.env;  // API-Schlüssel aus den Umgebungsvariablen
 
   const url = event.queryStringParameters.url;
   if (!url) {
