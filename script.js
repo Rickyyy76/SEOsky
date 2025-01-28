@@ -21,12 +21,19 @@ document.getElementById('calculateButton').addEventListener('click', function (e
     // Berechnung der zusätzlichen Kosten für Keywords (falls benötigt)
     const additionalCost = numKeywords * 10; // $10 pro Keyword
 
-    // Berechnung der Gesamtkosten (Paketpreis + zusätzliche Kosten)
+    // Berechnung der Basis-Gesamtkosten
     let totalCost = packageCost + additionalCost;
 
     // Anwendung der Multiplikatoren für Branche und Ranking-Position
     totalCost *= industryMultiplier;
     totalCost *= rankingMultiplier;
+
+    // Hinzufügen der Add-on Kosten
+    const localSeoCost = document.getElementById('localSeo').checked ? 100 : 0;
+    const technicalSeoCost = document.getElementById('technicalSeo').checked ? 150 : 0;
+    const competitorAnalysisCost = document.getElementById('competitorAnalysis').checked ? 200 : 0;
+
+    totalCost += localSeoCost + technicalSeoCost + competitorAnalysisCost;
 
     // Ergebnis anzeigen
     const resultElement = document.getElementById('estimatedCost');
@@ -39,6 +46,6 @@ document.getElementById('calculateButton').addEventListener('click', function (e
         🎉 Your calculation is complete! 🚀<br />
         <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
         Feel free to contact us to discuss our offers! 💬<br />
-        Contact us on Instagram or Linktree.
+        Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.
     `;
 });
