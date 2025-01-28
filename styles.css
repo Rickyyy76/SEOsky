@@ -85,6 +85,8 @@ button {
     margin-top: 20px;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 12px;
+    font-size: 1rem; /* Verkleinert die Buttons für kleine Geräte */
 }
 
 button:hover {
@@ -286,5 +288,19 @@ td {
 
     .container {
         padding: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    h1 {
+        font-size: 1.6rem; /* Noch kleinerer Header */
+    }
+
+    button {
+        padding: 10px; /* Etwas kleinere Buttons */
+    }
+
+    .input-group {
+        margin-bottom: 15px; /* Weniger Abstand für kleine Geräte */
     }
 }
