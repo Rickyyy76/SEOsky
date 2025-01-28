@@ -46,12 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Anzeige der Nachricht, dass man sich melden kann
             const popupMessage = document.getElementById('popupMessage');
             popupMessage.style.display = "block";
-            popupMessage.innerHTML = `
-                🎉 Your calculation is complete! 🚀<br />
+            popupMessage.innerHTML = `🎉 Your calculation is complete! 🚀<br />
                 <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
                 Feel free to contact us to discuss our offers! 💬<br />
-                Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.
-            `;
+                Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.`;
         });
     }
 
@@ -71,11 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const loadingMessage = document.getElementById('loadingMessage');
         loadingMessage.style.display = "block"; // Ladeanzeige anzeigen
 
-        // URL für die öffentliche PageSpeed Insights API-Anfrage ohne API-Schlüssel
-        const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}`;
-
-        // Anfrage an die öffentliche API senden
-        fetch(apiUrl)
+        // API-Aufruf zur PageSpeed Insights API
+        fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
             .then(response => response.json())
             .then(data => {
                 // Ladeanzeige deaktivieren
