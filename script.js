@@ -67,10 +67,17 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    // Ladeanzeige aktivieren
+    const loadingMessage = document.getElementById('loadingMessage');
+    loadingMessage.style.display = "block"; // Ladeanzeige anzeigen
+
     // Anfrage an die Netlify-Funktion senden (die auf die PageSpeed API zugreift)
     fetch(`/api/pagespeed?url=${encodeURIComponent(url)}`)
         .then(response => response.json())
         .then(data => {
+            // Ladeanzeige deaktivieren
+            loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+
             console.log(data); // Überprüfe, ob die Daten korrekt zurückgegeben werden
 
             // Hier kannst du die PageSpeed-Daten anzeigen
@@ -122,6 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
         })
         .catch(error => {
+            // Ladeanzeige deaktivieren
+            loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
+
             console.error('Error:', error);
             alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
         });
