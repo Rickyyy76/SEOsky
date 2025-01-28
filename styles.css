@@ -106,11 +106,12 @@ button:active {
     font-weight: 600;
 }
 
+
 /* Pop-up Message */
 #popupMessage {
     display: none;
-    background-color: rgba(0, 115, 230, 0.9); /* Hintergrund bleibt blau */
-    color: #fff; /* Textfarbe auf Weiß geändert */
+    background-color: rgba(0, 115, 230, 0.6); /* Dunklerer Hintergrund */
+    color: #fff !important; /* Sicherstellen, dass die Textfarbe wirklich weiß ist */
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -120,11 +121,11 @@ button:active {
 }
 
 #popupMessage p {
-    color: #fff; /* Text in den Absätzen bleibt Weiß */
+    color: #fff !important; /* Auch für Absätze sicherstellen, dass der Text weiß ist */
 }
 
 #popupMessage h2 {
-    color: #fff; /* Falls du eine Überschrift hast, wird diese auch Weiß */
+    color: #fff !important; /* Falls eine Überschrift da ist, auch sicherstellen, dass sie weiß ist */
 }
 
 #popupMessage button {
@@ -139,7 +140,6 @@ button:active {
 #popupMessage button:hover {
     background-color: #e53e36;
 }
-
 
 /* Anfrageformular - Initially hidden */
 #requestForm {
