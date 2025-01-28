@@ -18,9 +18,15 @@ document.getElementById('calculateButton').addEventListener('click', function (e
         }
     }
 
-    // Berechnung der Gesamtkosten (Zusätzliche Kosten für Keywords falls nötig)
+    // Berechnung der zusätzlichen Kosten für Keywords (falls benötigt)
     const additionalCost = numKeywords * 10; // $10 pro Keyword
-    const totalCost = (packageCost + additionalCost) * industryMultiplier * rankingMultiplier;
+
+    // Berechnung der Gesamtkosten (Paketpreis + zusätzliche Kosten)
+    let totalCost = packageCost + additionalCost;
+
+    // Anwendung der Multiplikatoren für Branche und Ranking-Position
+    totalCost *= industryMultiplier;
+    totalCost *= rankingMultiplier;
 
     // Ergebnis anzeigen
     const resultElement = document.getElementById('estimatedCost');
@@ -29,6 +35,10 @@ document.getElementById('calculateButton').addEventListener('click', function (e
     // Anzeige der Nachricht, dass man sich melden kann
     const popupMessage = document.getElementById('popupMessage');
     popupMessage.style.display = "block";
-    popupMessage.textContent = "🎉 Your calculation is complete! 🚀 Feel free to contact us to discuss our offers! 💬 Contact us on Instagram or Linktree.";
+    popupMessage.innerHTML = `
+        🎉 Your calculation is complete! 🚀<br />
+        <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
+        Feel free to contact us to discuss our offers! 💬<br />
+        Contact us on Instagram or Linktree.
+    `;
 });
-
