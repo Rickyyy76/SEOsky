@@ -66,13 +66,13 @@
                     <input type="url" id="userWebsite" name="userWebsite" placeholder="e.g., www.yoursite.com" required>
                 </div>
                 
+                <!-- Display Estimated Cost here -->
+                <div id="result" class="result" style="display: none;">
+                    <h2>💵 Estimated SEO Cost: <span id="estimatedCost">$0</span></h2>
+                </div>
+
                 <button type="button" id="calculateButton">🧮 Calculate Cost</button>
             </form>
-            
-            <!-- Result Display -->
-            <div id="result" class="result" style="display: none;">
-                <h2>💵 Estimated SEO Cost: <span id="estimatedCost">$0</span></h2>
-            </div>
 
             <!-- Contact Form (Initially hidden) -->
             <div id="contactForm" class="contact-form" style="display: none;">
@@ -149,5 +149,19 @@
         </div>
     </div>
 
-    <!-- Foot
+    <!-- Pop-up Message (Initially hidden) -->
+    <div id="popupMessage" class="popup-message" style="display: none;">
+        <p>🎉 Your calculation is complete! 🚀</p>
+        <p>Feel free to contact us to discuss our offers! 💬</p>
+        <button id="closePopup">❌ Close</button>
+    </div>
 
+    <!-- Footer with Social Links -->
+    <div class="footer">
+        <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a>
+        <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
