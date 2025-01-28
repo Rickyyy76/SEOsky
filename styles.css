@@ -104,6 +104,40 @@ button:active {
     font-weight: 600;
 }
 
+/* Anfrageformular - Initially hidden */
+#requestForm {
+    display: none;
+    margin-top: 20px;
+    background: rgba(128, 128, 128, 0.75);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#sendQuery {
+    background-color: #28a745; /* Grüner Button für Anfrage */
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#sendQuery:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+#sendQuery:active {
+    transform: translateY(0);
+}
+
 /* Package Table Styling */
 .package-table {
     background: rgba(255, 255, 255, 0.9);
