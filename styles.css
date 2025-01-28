@@ -128,6 +128,7 @@ button:active {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.3);
     overflow-x: auto;  /* Aktiviert horizontalen Scrollbalken */
+    word-wrap: break-word;  /* Verhindert, dass Text aus der Box herausläuft */
 }
 
 .package-table h2 {
@@ -140,12 +141,15 @@ table {
     width: 100%;
     table-layout: fixed; /* Sorgt für feste Spaltenbreite */
     max-width: 100%;
+    word-wrap: break-word;  /* Verhindert, dass Text aus der Box herausläuft */
 }
 
 th, td {
     padding: 12px;
     text-align: center;
     border: 1px solid #ddd;
+    word-wrap: break-word;  /* Verhindert, dass Text aus der Box herausläuft */
+    white-space: normal;  /* Erlaubt Textumbruch */
 }
 
 th {
