@@ -1,25 +1,3 @@
-// Firebase SDK importieren
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
-
-// Firebase-Konfiguration
-const firebaseConfig = {
-  apiKey: "AIzaSyBenK4-6j2IPbHyUsZNbK9Ef5ACPLezSNY",
-  authDomain: "seosky-19263.firebaseapp.com",
-  projectId: "seosky-19263",
-  storageBucket: "seosky-19263.firebasestorage.app",
-  messagingSenderId: "14660666712",
-  appId: "1:14660666712:web:3fc7a264e12bd0cd08512d",
-  measurementId: "G-YC0ENCYZCT",
-};
-
-// Firebase initialisieren
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-
-// Event-Listener für den "Calculate Cost"-Button
 document.getElementById('calculateButton').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -51,5 +29,6 @@ document.getElementById('calculateButton').addEventListener('click', function (e
     // Anzeige der Nachricht, dass man sich melden kann
     const popupMessage = document.getElementById('popupMessage');
     popupMessage.style.display = "block";
-    popupMessage.textContent = "Please contact us to discuss offers!";
+    popupMessage.textContent = "🎉 Your calculation is complete! 🚀 Feel free to contact us to discuss our offers! 💬 Contact us on Instagram or Linktree.";
 });
+
