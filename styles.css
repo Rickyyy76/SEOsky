@@ -119,6 +119,14 @@ button:active {
     margin-top: 20px;
 }
 
+#popupMessage p {
+    color: #fff; /* Text in den Absätzen bleibt Weiß */
+}
+
+#popupMessage h2 {
+    color: #fff; /* Falls du eine Überschrift hast, wird diese auch Weiß */
+}
+
 #popupMessage button {
     margin-top: 10px;
     background-color: #ff6347; /* Roter Button zum Schließen */
