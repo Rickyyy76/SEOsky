@@ -20,7 +20,7 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 // Event-Listener für das Berechnungsformular
-document.getElementById('seoCalculator').addEventListener('submit', async function (event) {
+document.getElementById('calculateButton').addEventListener('click', function (event) {
     event.preventDefault();
 
     // Eingabewerte abrufen
@@ -49,7 +49,13 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
     document.getElementById('estimatedCost').textContent = `$${totalCost.toFixed(2)}`;
 
     // Anzeige des Anfrageformulars und des Buttons zum Senden der Anfrage
-    document.getElementById('contactForm').style.display = "block"; // Kontaktformular anzeigen
+    document.getElementById('result').style.display = "block"; // Preis anzeigen
+    document.getElementById('popupMessage').style.display = "block"; // Pop-up anzeigen
+
+    // Pop-up schließen
+    document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popupMessage').style.display = "none"; // Pop-up ausblenden
+    });
 
     // Button "Anfrage senden" zum Versenden der Daten
     document.getElementById('contactFormDetails').addEventListener('submit', async function (e) {
@@ -75,10 +81,10 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
                 timestamp: new Date(),
             });
             console.log("Daten erfolgreich gespeichert mit ID: ", docRef.id);
-            alert("Deine Anfrage wurde erfolgreich übermittelt!");
+            alert("Your request has been successfully submitted!");
         } catch (error) {
-            console.error("Fehler beim Speichern der Daten: ", error);
-            alert("Es gab einen Fehler bei der Übermittlung. Bitte versuche es erneut.");
+            console.error("Error saving data: ", error);
+            alert("There was an error submitting your request. Please try again.");
         }
     });
 });
