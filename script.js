@@ -28,8 +28,6 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
     let numKeywords = parseInt(document.getElementById('numKeywords').value) || 0;
     const industryMultiplier = parseFloat(document.getElementById('industry').value);
     const rankingMultiplier = parseFloat(document.getElementById('rankingPosition').value);
-    const userName = document.getElementById('userName').value; // Name des Benutzers
-    const userEmail = document.getElementById('userEmail').value; // E-Mail des Benutzers
     const userWebsite = document.getElementById('userWebsite').value; // Website des Benutzers
 
     // Wenn das Feld für die Keywords leer ist, setzen wir es basierend auf dem Paket
@@ -51,30 +49,29 @@ document.getElementById('seoCalculator').addEventListener('submit', async functi
     document.getElementById('estimatedCost').textContent = `$${totalCost.toFixed(2)}`;
 
     // Anzeige des Anfrageformulars und des Buttons zum Senden der Anfrage
-    document.getElementById('requestForm').style.display = "block";
-    document.getElementById('sendQuery').style.display = "block";
+    document.getElementById('contactForm').style.display = "block"; // Kontaktformular anzeigen
 
     // Button "Anfrage senden" zum Versenden der Daten
-    document.getElementById('sendQuery').addEventListener('click', async function () {
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
         // Eingabewerte des Anfrageformulars abrufen
         const contactName = document.getElementById('name').value;
         const contactEmail = document.getElementById('email').value;
-        const contactWebsite = document.getElementById('website').value;
+        const contactMessage = document.getElementById('message').value;
 
         // Daten an Firebase senden
         try {
             const docRef = await addDoc(collection(db, "requests"), {
-                userName: userName,
-                userEmail: userEmail,
+                contactName: contactName,
+                contactEmail: contactEmail,
+                contactMessage: contactMessage,
                 userWebsite: userWebsite,
                 packageCost: packageCost,
                 numKeywords: numKeywords,
                 industryMultiplier: industryMultiplier,
                 rankingMultiplier: rankingMultiplier,
                 totalCost: totalCost.toFixed(2),
-                contactName: contactName,
-                contactEmail: contactEmail,
-                contactWebsite: contactWebsite,
                 timestamp: new Date(),
             });
             console.log("Daten erfolgreich gespeichert mit ID: ", docRef.id);
