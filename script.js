@@ -50,6 +50,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
                 Feel free to contact us to discuss our offers! 💬<br />
                 Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.`;
+            
+            // Zeige die detaillierten Berechnungsdaten an
+            const detailsElement = document.getElementById('calculationDetails');
+            detailsElement.innerHTML = `
+                <h3>Calculation Breakdown</h3>
+                <ul>
+                    <li><strong>Package Cost:</strong> $${packageCost}</li>
+                    <li><strong>Number of Keywords:</strong> ${numKeywords}</li>
+                    <li><strong>Additional Cost for Keywords:</strong> $${additionalCost}</li>
+                    <li><strong>Industry Multiplier:</strong> ${industryMultiplier}</li>
+                    <li><strong>Ranking Position Multiplier:</strong> ${rankingMultiplier}</li>
+                    <li><strong>Local SEO Cost:</strong> $${localSeoCost}</li>
+                    <li><strong>Technical SEO Cost:</strong> $${technicalSeoCost}</li>
+                    <li><strong>Competitor Analysis Cost:</strong> $${competitorAnalysisCost}</li>
+                    <li><strong>Total Estimated Cost:</strong> $${totalCost.toFixed(2)}</li>
+                </ul>
+            `;
         });
     }
 
