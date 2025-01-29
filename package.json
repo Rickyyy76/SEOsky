@@ -14,5 +14,8 @@
     "axios": "^1.7.9",
     "node-fetch": "^2.6.7",
     "googleapis": "^39.2.0"  // Hier googleapis hinzugefügt
+  },
+  "engines": {
+    "node": "16.x"  // Node.js-Version festgelegt
   }
 }
