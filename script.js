@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function escapeHTML(str) {
         return str.replace(/[&<>"']/g, function (match) {
-            return ({
+            return ( {
                 '&': '&amp;',
                 '<': '&lt;',
                 '>': '&gt;',
@@ -70,38 +70,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('checkPagespeed').addEventListener('click', function (event) {
         event.preventDefault();
-        
+
         const url = document.getElementById('shopUrl').value;
         if (!url) {
             alert("Please enter a URL.");
             return;
         }
-        
+
         const loadingMessage = document.getElementById('loadingMessage');
         loadingMessage.style.display = "block";
-        
+
         fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
             .then(response => response.json())
             .then(data => {
                 loadingMessage.style.display = "none";
-                
+
                 if (!data.lighthouseResult) {
                     document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available. Please check the URL.</p>`;
                     return;
                 }
-                
+
                 const audits = data.lighthouseResult.audits;
                 const categories = data.lighthouseResult.categories;
-                
+
                 let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
-                
+
                 detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
                 for (const categoryKey in categories) {
                     const category = categories[categoryKey];
                     detailedDataHtml += `
                         <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
                 }
-                
+
                 detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
                 const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
                 metricKeys.forEach(key => {
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
                     }
                 });
-                
+
                 detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
                 const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
                 improvementKeys.forEach(key => {
@@ -118,7 +118,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
                 detailedDataHtml += `</ul>`;
-                
+
+                // Additional data display
+                detailedDataHtml += `<h3>📈 Other Metrics:</h3>`;
+                const otherMetrics = ['speed-index', 'time-to-interactive', 'first-meaningful-paint'];
+                otherMetrics.forEach(key => {
+                    if (audits[key]) {
+                        detailedDataHtml += `<p>📊 <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
+                    }
+                });
+
                 document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
                 document.getElementById('pagespeedResult').style.display = 'block';
             })
