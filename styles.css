@@ -32,6 +32,17 @@ body {
     border: 3px solid #004a99; /* Blauer Rand */
 }
 
+/* Neuer Abschnitt für den PageSpeed-Check */
+.page-speed-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+    backdrop-filter: blur(8px);
+    border: 3px solid #004a99; /* Blauer Rand */
+}
+
 /* Calculator Card Styling */
 .calculator-card {
     background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe */
@@ -42,6 +53,7 @@ body {
     backdrop-filter: blur(12px);
     border: 3px solid #004a99; /* Blauer Rand */
     margin-bottom: 40px;
+    color: #333; /* Dunklere Schriftfarbe für bessere Lesbarkeit */
 }
 
 /* Headings and Text */
@@ -217,7 +229,7 @@ td {
     h1 {
         font-size: 2rem;
     }
-    .calculator-card, .package-table {
+    .calculator-card, .package-table, .page-speed-box {
         padding: 20px;
     }
     button {
@@ -236,4 +248,8 @@ td {
     .package-table {
         padding: 15px;
     }
+    .page-speed-box {
+        padding: 15px;
+    }
 }
+
