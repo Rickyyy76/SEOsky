@@ -21,6 +21,17 @@ body {
     margin: 20px auto;
 }
 
+/* Einheitliches Boxen-Design */
+.box {
+    background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe für einheitliches Design */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
 /* Calculator Card Styling */
 .calculator-card {
     background: rgba(128, 128, 128, 0.85); /* Leicht dunkler für bessere Lesbarkeit */
@@ -134,7 +145,7 @@ button:active {
     background-color: #e53e36;
 }
 
-/* Einheitlichere Anfrageformular-Optik */
+/* Einheitlicher Look für das Anfrageformular */
 #requestForm {
     display: none;
     margin-top: 20px;
