@@ -22,28 +22,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Berechnung der zusätzlichen Kosten für Keywords (falls benötigt)
+            // Berechnung der zusätzlichen Kosten für Keywords
             const additionalCost = numKeywords * 10; // $10 pro Keyword
-
-            // Berechnung der Basis-Gesamtkosten
             let totalCost = packageCost + additionalCost;
 
             // Anwendung der Multiplikatoren für Branche und Ranking-Position
             totalCost *= industryMultiplier;
             totalCost *= rankingMultiplier;
 
-            // Hinzufügen der Add-on Kosten
+            // Add-on Kosten
             const localSeoCost = document.getElementById('localSeo').checked ? 100 : 0;
             const technicalSeoCost = document.getElementById('technicalSeo').checked ? 150 : 0;
             const competitorAnalysisCost = document.getElementById('competitorAnalysis').checked ? 200 : 0;
-
             totalCost += localSeoCost + technicalSeoCost + competitorAnalysisCost;
 
             // Ergebnis anzeigen
             const resultElement = document.getElementById('estimatedCost');
             resultElement.textContent = `$${totalCost.toFixed(2)}`;
 
-            // Anzeige der Nachricht, dass man sich melden kann
+            // Popup-Nachricht anzeigen
             const popupMessage = document.getElementById('popupMessage');
             popupMessage.style.display = "block";
             popupMessage.innerHTML = `🎉 Your calculation is complete! 🚀<br />
@@ -51,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Feel free to contact us to discuss our offers! 💬<br />
                 Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.`;
 
-            // Zeige die detaillierten Berechnungsdaten an
+            // Detaillierte Berechnung anzeigen
             const detailsElement = document.getElementById('calculationDetails');
             detailsElement.innerHTML = `
                 <h3>Calculation Breakdown</h3>
@@ -73,93 +70,64 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event Listener für den Analyze-Button
     document.getElementById('checkPagespeed').addEventListener('click', function (event) {
         event.preventDefault();
-
-        // URL aus dem Eingabefeld holen
+        
         const url = document.getElementById('shopUrl').value;
-
         if (!url) {
             alert("Bitte gib eine URL ein.");
             return;
         }
-
-        // Ladeanzeige aktivieren
+        
         const loadingMessage = document.getElementById('loadingMessage');
-        loadingMessage.style.display = "block"; // Ladeanzeige anzeigen
-
-        // API-Aufruf zur PageSpeed Insights API
+        loadingMessage.style.display = "block";
+        
         fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
             .then(response => response.json())
             .then(data => {
-                // Ladeanzeige deaktivieren
-                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
-
-                // Wenn keine Daten vorhanden sind
+                loadingMessage.style.display = "none";
+                
                 if (!data.lighthouseResult) {
                     alert("Keine PageSpeed-Daten verfügbar.");
                     return;
                 }
-
-                // Alle Audits extrahieren
+                
                 const audits = data.lighthouseResult.audits;
                 const categories = data.lighthouseResult.categories;
-
-                let detailedDataHtml = `<h3>PageSpeed Insights Results</h3>`;
-
-                // Alle Audits dynamisch anzeigen
-                detailedDataHtml += `<h4>Audits:</h4><ul>`;
-                for (const auditKey in audits) {
-                    const audit = audits[auditKey];
-                    detailedDataHtml += `
-                        <li>
-                            <strong>${audit.title}:</strong> ${audit.displayValue || 'No data available'}
-                            <br><em>${audit.description}</em>
-                        </li>
-                    `;
-                }
-                detailedDataHtml += `</ul>`;
-
-                // Alle Kategorien anzeigen (z. B. Performance, SEO, Accessibility, etc.)
-                detailedDataHtml += `<h4>Categories:</h4><ul>`;
+                
+                let detailedDataHtml = `🌐 <strong>Analyse der Webseite:</strong> ${url}<br><br>`;
+                
+                detailedDataHtml += `<h3>📊 Leistungsbewertung:</h3>`;
                 for (const categoryKey in categories) {
                     const category = categories[categoryKey];
                     detailedDataHtml += `
-                        <li>
-                            <strong>${category.title}:</strong> ${category.score * 100}% 
-                            <br><em>${category.description}</em>
-                        </li>
-                    `;
+                        <p>✅ <strong>${category.title}:</strong> ${category.score * 100}%</p>`;
                 }
+                
+                detailedDataHtml += `<h3>⏱️ Wichtige Metriken:</h3>`;
+                const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
+                metricKeys.forEach(key => {
+                    if (audits[key]) {
+                        detailedDataHtml += `<p>⚡ <strong>${audits[key].title}:</strong> ${audits[key].displayValue || 'Keine Daten'}</p>`;
+                    }
+                });
+                
+                detailedDataHtml += `<h3>💡 Optimierungsvorschläge:</h3><ul>`;
+                const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
+                improvementKeys.forEach(key => {
+                    if (audits[key]) {
+                        detailedDataHtml += `<li>🛠️ <strong>${audits[key].title}:</strong> ${audits[key].displayValue || 'Keine Daten'}</li>`;
+                    }
+                });
                 detailedDataHtml += `</ul>`;
-
-                // Weiterhin spezifische Metriken anzeigen
-                const performanceScore = (categories.performance ? (categories.performance.score * 100).toFixed(2) : 'N/A');
-                const seoScore = (categories.seo ? (categories.seo.score * 100).toFixed(2) : 'N/A');
-                const accessibilityScore = (categories.accessibility ? (categories.accessibility.score * 100).toFixed(2) : 'N/A');
-                const bestPracticesScore = (categories['best-practices'] ? (categories['best-practices'].score * 100).toFixed(2) : 'N/A');
-
-                detailedDataHtml += `
-                    <h4>General Scores:</h4>
-                    <ul>
-                        <li><strong>Performance Score:</strong> ${performanceScore}%</li>
-                        <li><strong>SEO Score:</strong> ${seoScore}%</li>
-                        <li><strong>Accessibility Score:</strong> ${accessibilityScore}%</li>
-                        <li><strong>Best Practices Score:</strong> ${bestPracticesScore}%</li>
-                    </ul>
-                `;
-
-                // Anzeige der vollständigen Daten
+                
                 const resultElement = document.getElementById('pageSpeedData');
                 resultElement.innerHTML = detailedDataHtml;
-
-                // Zeige die PageSpeed-Ergebnisse an
                 document.getElementById('pagespeedResult').style.display = 'block';
             })
             .catch(error => {
-                // Ladeanzeige deaktivieren
-                loadingMessage.style.display = "none"; // Ladeanzeige ausblenden
-
+                loadingMessage.style.display = "none";
                 console.error('Error:', error);
                 alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
             });
     });
 });
+
