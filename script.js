@@ -135,42 +135,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // SEO Data Checker event listener
+      // SEO Data Checker event listener
     if (checkSeoDataButton) {
         checkSeoDataButton.addEventListener('click', function (event) {
             event.preventDefault();
-
+    
             const seoUrl = document.getElementById('urlInput').value;
             if (!seoUrl) {
                 alert("Please enter a URL.");
                 return;
             }
-
+    
             const seoLoadingMessage = document.getElementById('seoLoadingMessage');
-            seoLoadingMessage.style.display = "block";
-
+            seoLoadingMessage.style.display = "block"; // Lade-Nachricht einblenden
+    
             // Fetch SEO data (replace this with actual SEO data API call)
             fetch(`/seo-checker?url=${encodeURIComponent(seoUrl)}`)
                 .then(response => response.json())
                 .then(data => {
-                    seoLoadingMessage.style.display = "none";
+                    seoLoadingMessage.style.display = "none"; // Lade-Nachricht ausblenden
                     if (data.error) {
                         document.getElementById('seoData').innerHTML = `<p style="color: red;">⚠️ Error: No SEO data available. Please check the URL.</p>`;
                         return;
                     }
-
+    
                     // Process SEO data and display it
                     let seoDetailedHtml = `<h3>SEO Data for: ${escapeHTML(seoUrl)}</h3>`;
                     seoDetailedHtml += `<p><strong>SEO Score:</strong> ${data.seoScore}%</p>`;
                     seoDetailedHtml += `<p><strong>Keywords Ranking:</strong> ${data.keywords}</p>`;
                     seoDetailedHtml += `<p><strong>Meta Tags:</strong> ${data.metaTags}</p>`;
                     seoDetailedHtml += `<p><strong>Suggestions:</strong> ${data.suggestions}</p>`;
-
+    
                     document.getElementById('seoData').innerHTML = seoDetailedHtml;
                     document.getElementById('seoResult').style.display = 'block';
                 })
                 .catch(error => {
-                    seoLoadingMessage.style.display = "none";
+                    seoLoadingMessage.style.display = "none"; // Lade-Nachricht ausblenden im Fehlerfall
                     console.error('Error:', error);
                     alert("An error occurred. Please try again later.");
                 });
