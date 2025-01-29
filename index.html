@@ -129,10 +129,9 @@
             </table>
         </div>
 
-        <!-- SEO Data Check Form (Google Search Console) -->
         <div class="seo-check">
             <h2>🔍 SEO Data Checker</h2>
-            <p>Check your website's SEO data directly from Google Search Console!</p>
+            <p>Check your website's SEO data!</p>
             <form id="seoCheckForm">
                 <div class="input-group">
                     <label for="urlInput">Enter your website URL:</label>
@@ -140,18 +139,15 @@
                 </div>
                 <button type="button" id="checkSeoData">🚀 Check SEO Data</button>
             </form>
-        
-            <!-- SEO Results Area -->
             <div id="seoResult" style="display: none; margin-top: 20px;">
                 <h3>SEO Data for <span id="resultUrl"></span></h3>
                 <pre id="seoData"></pre>
             </div>
         </div>
 
-        <!-- PageSpeed Insights Integration -->
         <div class="page-speed-box">
             <h2>🔍 Check Your PageSpeed</h2>
-            <p>Analyze your website's performance using Google PageSpeed Insights! 🌐</p>
+            <p>Analyze your website's performance! 🌐</p>
             <form id="pagespeedForm">
                 <div class="input-group">
                     <label for="shopUrl">Enter your shop's URL:</label>
@@ -159,27 +155,24 @@
                 </div>
                 <button type="button" id="checkPagespeed">🚀 Analyze</button>
             </form>
-        
-            <!-- Ladeanzeige -->
             <div id="loadingMessage" style="display: none; font-size: 1.5rem; font-weight: bold; color: #0073e6; text-align: center; margin-top: 20px;">
                 🚀 Analyzing page... Please wait...
             </div>
-        
-            <!-- Area for displaying PageSpeed Results -->
             <div id="pagespeedResult" style="display: none;">
                 <h3>🚀 PageSpeed Insights Results:</h3>
-                <div id="pageSpeedData">
-                    <!-- PageSpeed details will be dynamically inserted here by JavaScript -->
-                </div>
+                <div id="pageSpeedData"></div>
             </div>
         </div>
     </div>
 
-    <!-- Footer with Social Links -->
     <div class="footer">
-        <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a>
+        <a href="https://www.instagram.com/76.rickyyy" target="_blank">Instagram</a>
         <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>
     </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
     <script src="script.js"></script>
 </body>
