@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function escapeHTML(str) {
         return str.replace(/[&<>"']/g, function (match) {
-            return ( {
+            return {
                 '&': '&amp;',
                 '<': '&lt;',
                 '>': '&gt;',
                 '"': '&quot;',
                 "'": '&#039;'
-            })[match];
+            }[match];
         });
     }
 
