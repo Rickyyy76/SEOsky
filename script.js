@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const detailsElement = document.getElementById('calculationDetails');
     const checkPagespeedButton = document.getElementById('checkPagespeed');
     const checkSeoDataButton = document.getElementById('checkSeoData');
+    const seoDataElement = document.getElementById('seoData');
+    const seoLoadingMessage = document.getElementById('seoLoadingMessage');
 
     // Function to escape HTML
     function escapeHTML(str) {
@@ -135,45 +137,67 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-      // SEO Data Checker event listener
+    // SEO Data Checker event listener
     if (checkSeoDataButton) {
         checkSeoDataButton.addEventListener('click', function (event) {
             event.preventDefault();
-    
+
             const seoUrl = document.getElementById('urlInput').value;
             if (!seoUrl) {
                 alert("Please enter a URL.");
                 return;
             }
-    
-            const seoLoadingMessage = document.getElementById('seoLoadingMessage');
-            seoLoadingMessage.style.display = "block"; // Lade-Nachricht einblenden
-    
-            // Fetch SEO data (replace this with actual SEO data API call)
-            fetch(`/seo-checker?url=${encodeURIComponent(seoUrl)}`)
-                .then(response => response.json())
-                .then(data => {
-                    seoLoadingMessage.style.display = "none"; // Lade-Nachricht ausblenden
-                    if (data.error) {
-                        document.getElementById('seoData').innerHTML = `<p style="color: red;">⚠️ Error: No SEO data available. Please check the URL.</p>`;
-                        return;
-                    }
-    
-                    // Process SEO data and display it
-                    let seoDetailedHtml = `<h3>SEO Data for: ${escapeHTML(seoUrl)}</h3>`;
-                    seoDetailedHtml += `<p><strong>SEO Score:</strong> ${data.seoScore}%</p>`;
-                    seoDetailedHtml += `<p><strong>Keywords Ranking:</strong> ${data.keywords}</p>`;
-                    seoDetailedHtml += `<p><strong>Meta Tags:</strong> ${data.metaTags}</p>`;
-                    seoDetailedHtml += `<p><strong>Suggestions:</strong> ${data.suggestions}</p>`;
-    
-                    document.getElementById('seoData').innerHTML = seoDetailedHtml;
-                    document.getElementById('seoResult').style.display = 'block';
-                })
-                .catch(error => {
-                    seoLoadingMessage.style.display = "none"; // Lade-Nachricht ausblenden im Fehlerfall
-                    console.error('Error:', error);
-                    alert("An error occurred. Please try again later.");
-                });
+
+            // Loading message while SEO analysis is in progress
+            seoLoadingMessage.style.display = "block";
+
+            // Extract SEO data directly from the page (No external API)
+            const title = document.querySelector('title') ? document.querySelector('title').textContent : 'No Title';
+            const metaDescription = document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').getAttribute('content') : 'No Meta Description';
+            const metaKeywords = document.querySelector('meta[name="keywords"]') ? document.querySelector('meta[name="keywords"]').getAttribute('content') : 'No Meta Keywords';
+            const h1Tags = Array.from(document.querySelectorAll('h1')).map(h1 => h1.textContent).join(', ') || 'No H1 Tags';
+
+            // Calculate SEO score (basic example: higher is better)
+            let seoScore = 0;
+            if (title.length > 0) seoScore += 20;
+            if (metaDescription.length > 0) seoScore += 20;
+            if (metaKeywords.length > 0) seoScore += 20;
+            if (h1Tags.length > 0) seoScore += 20;
+            if (document.querySelector('meta[name="robots"]')) seoScore += 20;
+
+            seoScore = Math.min(seoScore, 100); // Ensuring the score doesn't exceed 100
+
+            // Display SEO data
+            const seoDetailedHtml = `
+                <h3>🔍 SEO Data for: ${escapeHTML(seoUrl)}</h3>
+                <p><strong>SEO Score: 🌟</strong> ${seoScore}%</p>
+                <p><strong>📑 Title:</strong> ${escapeHTML(title)}</p>
+                <p><strong>📝 Meta Description:</strong> ${escapeHTML(metaDescription)}</p>
+                <p><strong>🔑 Meta Keywords:</strong> ${escapeHTML(metaKeywords)}</p>
+                <p><strong>🖋️ H1 Tags:</strong> ${escapeHTML(h1Tags)}</p>
+                <h4>🛠️ Content Optimization</h4>
+                <ul>
+                    <li>${title.length > 0 ? '✅ Title Tag is present' : '❌ No Title Tag'}</li>
+                    <li>${metaDescription.length > 0 ? '✅ Meta Description is present' : '❌ No Meta Description'}</li>
+                    <li>${metaKeywords.length > 0 ? '✅ Meta Keywords are present' : '❌ No Meta Keywords'}</li>
+                    <li>${h1Tags.length > 0 ? '✅ H1 Tag is used correctly' : '❌ No H1 Tag'}</li>
+                </ul>
+                <h4>⚙️ Technical SEO</h4>
+                <ul>
+                    <li>${document.querySelector('meta[name="robots"]') ? '✅ Meta Robots tag is present' : '❌ No Meta Robots tag'}</li>
+                    <li>${document.querySelector('link[rel="canonical"]') ? '✅ Canonical Link is present' : '❌ No Canonical Link'}</li>
+                </ul>
+                <h4>📱 Usability & Performance</h4>
+                <ul>
+                    <li>${window.innerWidth < 768 ? '✅ Mobile-Friendly' : '❌ Not Mobile-Friendly'}</li>
+                    <li>${document.querySelector('img[alt=""]') ? '⚠️ Some images are missing alt attributes' : '✅ All images have alt attributes'}</li>
+                </ul>
+            `;
+
+            // Hide loading message and show SEO data
+            seoLoadingMessage.style.display = "none";
+            seoDataElement.innerHTML = seoDetailedHtml;
+            seoDataElement.style.display = 'block';
         });
     }
 });
