@@ -76,6 +76,25 @@
             </div>
         </div>
 
+        <!-- SEO Data Check Form (Google Search Console) -->
+        <div class="seo-check">
+            <h2>🔍 SEO Data Checker</h2>
+            <p>Check your website's SEO data directly from Google Search Console!</p>
+            <form id="seoCheckForm">
+                <div class="input-group">
+                    <label for="urlInput">Enter your website URL:</label>
+                    <input type="url" id="urlInput" name="url" required placeholder="https://example.com">
+                </div>
+                <button type="button" id="checkSeoData">🚀 Check SEO Data</button>
+            </form>
+        
+            <!-- SEO Results Area -->
+            <div id="seoResult" style="display: none; margin-top: 20px;">
+                <h3>SEO Data for <span id="resultUrl"></span></h3>
+                <pre id="seoData"></pre>
+            </div>
+        </div>
+
         <!-- Package Comparison Table -->
         <div class="package-table">
             <h2>📦 Our SEO Packages</h2>
