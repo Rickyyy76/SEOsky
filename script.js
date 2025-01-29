@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultElement = document.getElementById('estimatedCost');
     const popupMessage = document.getElementById('popupMessage');
     const detailsElement = document.getElementById('calculationDetails');
+    const checkPagespeedButton = document.getElementById('checkPagespeed');
+    const checkSeoDataButton = document.getElementById('checkSeoData');
 
     // Function to escape HTML
     function escapeHTML(str) {
@@ -71,103 +73,107 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Check PageSpeed event listener
-    document.getElementById('checkPagespeed').addEventListener('click', function (event) {
-        event.preventDefault();
+    if (checkPagespeedButton) {
+        checkPagespeedButton.addEventListener('click', function (event) {
+            event.preventDefault();
 
-        const url = document.getElementById('shopUrl').value;
-        if (!url) {
-            alert("Please enter a URL.");
-            return;
-        }
+            const url = document.getElementById('shopUrl').value;
+            if (!url) {
+                alert("Please enter a URL.");
+                return;
+            }
 
-        const loadingMessage = document.getElementById('loadingMessage');
-        loadingMessage.style.display = "block";
+            const loadingMessage = document.getElementById('loadingMessage');
+            loadingMessage.style.display = "block";
 
-        // Fetch PageSpeed data
-        fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
-            .then(response => response.json())
-            .then(data => {
-                loadingMessage.style.display = "none";
+            // Fetch PageSpeed data
+            fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
+                .then(response => response.json())
+                .then(data => {
+                    loadingMessage.style.display = "none";
 
-                if (!data.lighthouseResult) {
-                    document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available. Please check the URL.</p>`;
-                    return;
-                }
-
-                const audits = data.lighthouseResult.audits;
-                const categories = data.lighthouseResult.categories;
-
-                let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
-                detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
-                for (const categoryKey in categories) {
-                    const category = categories[categoryKey];
-                    detailedDataHtml += `<p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
-                }
-
-                detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
-                const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
-                metricKeys.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
+                    if (!data.lighthouseResult) {
+                        document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available. Please check the URL.</p>`;
+                        return;
                     }
-                });
 
-                detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
-                const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
-                improvementKeys.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</li>`;
+                    const audits = data.lighthouseResult.audits;
+                    const categories = data.lighthouseResult.categories;
+
+                    let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
+                    detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
+                    for (const categoryKey in categories) {
+                        const category = categories[categoryKey];
+                        detailedDataHtml += `<p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
                     }
+
+                    detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
+                    const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
+                    metricKeys.forEach(key => {
+                        if (audits[key]) {
+                            detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
+                        }
+                    });
+
+                    detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
+                    const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
+                    improvementKeys.forEach(key => {
+                        if (audits[key]) {
+                            detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</li>`;
+                        }
+                    });
+                    detailedDataHtml += `</ul>`;
+
+                    document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
+                    document.getElementById('pagespeedResult').style.display = 'block';
+                })
+                .catch(error => {
+                    loadingMessage.style.display = "none";
+                    console.error('Error:', error);
+                    alert("An error occurred. Please try again later.");
                 });
-                detailedDataHtml += `</ul>`;
+        });
+    }
 
-                document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
-                document.getElementById('pagespeedResult').style.display = 'block';
-            })
-            .catch(error => {
-                loadingMessage.style.display = "none";
-                console.error('Error:', error);
-                alert("An error occurred. Please try again later.");
-            });
-    });
+    // SEO Data Checker event listener
+    if (checkSeoDataButton) {
+        checkSeoDataButton.addEventListener('click', function (event) {
+            event.preventDefault();
 
-    // SEO Data Checker event listener (similar to the Pagespeed checker)
-    document.getElementById('checkSeoData').addEventListener('click', function (event) {
-        event.preventDefault();
+            const seoUrl = document.getElementById('seoShopUrl').value;
+            if (!seoUrl) {
+                alert("Please enter a URL.");
+                return;
+            }
 
-        const seoUrl = document.getElementById('seoShopUrl').value;
-        if (!seoUrl) {
-            alert("Please enter a URL.");
-            return;
-        }
+            const seoLoadingMessage = document.getElementById('seoLoadingMessage');
+            seoLoadingMessage.style.display = "block";
 
-        const seoLoadingMessage = document.getElementById('seoLoadingMessage');
-        seoLoadingMessage.style.display = "block";
+            // Fetch SEO data (replace this with actual SEO data API call)
+            fetch(`/seo-checker?url=${encodeURIComponent(seoUrl)}`)
+                .then(response => response.json())
+                .then(data => {
+                    seoLoadingMessage.style.display = "none";
+                    if (data.error) {
+                        document.getElementById('seoData').innerHTML = `<p style="color: red;">⚠️ Error: No SEO data available. Please check the URL.</p>`;
+                        return;
+                    }
 
-        // Fetch SEO data (replace this with actual SEO data API call)
-        fetch(`/seo-checker?url=${encodeURIComponent(seoUrl)}`)
-            .then(response => response.json())
-            .then(data => {
-                seoLoadingMessage.style.display = "none";
-                if (data.error) {
-                    document.getElementById('seoData').innerHTML = `<p style="color: red;">⚠️ Error: No SEO data available. Please check the URL.</p>`;
-                    return;
-                }
+                    // Process SEO data and display it
+                    let seoDetailedHtml = `<h3>SEO Data for: ${escapeHTML(seoUrl)}</h3>`;
+                    seoDetailedHtml += `<p><strong>SEO Score:</strong> ${data.seoScore}%</p>`;
+                    seoDetailedHtml += `<p><strong>Keywords Ranking:</strong> ${data.keywords}</p>`;
+                    seoDetailedHtml += `<p><strong>Meta Tags:</strong> ${data.metaTags}</p>`;
+                    seoDetailedHtml += `<p><strong>Suggestions:</strong> ${data.suggestions}</p>`;
 
-                // Process SEO data and display it
-                let seoDetailedHtml = `<h3>SEO Data for: ${escapeHTML(seoUrl)}</h3>`;
-                seoDetailedHtml += `<p><strong>SEO Score:</strong> ${data.seoScore}%</p>`;
-                seoDetailedHtml += `<p><strong>Keywords Ranking:</strong> ${data.keywords}</p>`;
-                seoDetailedHtml += `<p><strong>Meta Tags:</strong> ${data.metaTags}</p>`;
-                seoDetailedHtml += `<p><strong>Suggestions:</strong> ${data.suggestions}</p>`;
-
-                document.getElementById('seoData').innerHTML = seoDetailedHtml;
-                document.getElementById('seoResult').style.display = 'block';
-            })
-            .catch(error => {
-                seoLoadingMessage.style.display = "none";
-                console.error('Error:', error);
-                alert("An error occurred. Please try again later.");
-            });
-    });
+                    document.getElementById('seoData').innerHTML = seoDetailedHtml;
+                    document.getElementById('seoResult').style.display = 'block';
+                })
+                .catch(error => {
+                    seoLoadingMessage.style.display = "none";
+                    console.error('Error:', error);
+                    alert("An error occurred. Please try again later.");
+                });
+        });
+    }
 });
