@@ -22,38 +22,14 @@ body {
 }
 
 /* Einheitliches Boxen-Design mit blauem Rand */
-.box {
-    background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe für einheitliches Design */
+.box, .page-speed-box, .calculator-card, .addons-section, .package-table, #requestForm {
+    background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe mit Transparenz */
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     backdrop-filter: blur(8px);
     border: 3px solid #004a99; /* Blauer Rand */
-}
-
-/* Neuer Abschnitt für den PageSpeed-Check */
-.page-speed-box {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    margin-bottom: 40px;
-    backdrop-filter: blur(8px);
-    border: 3px solid #004a99; /* Blauer Rand */
-}
-
-/* Calculator Card Styling */
-.calculator-card {
-    background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe */
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    backdrop-filter: blur(12px);
-    border: 3px solid #004a99; /* Blauer Rand */
-    margin-bottom: 40px;
-    color: #333; /* Dunklere Schriftfarbe für bessere Lesbarkeit */
 }
 
 /* Headings and Text */
@@ -63,8 +39,14 @@ h1 {
     margin-bottom: 15px;
 }
 
+h3 {
+    color: #004a99;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
 p {
-    color: #fff;
+    color: #333; /* Dunklerer Text für bessere Lesbarkeit */
     font-size: 1.2rem;
     margin-bottom: 20px;
 }
@@ -78,7 +60,7 @@ p {
 label {
     display: block;
     font-weight: 600;
-    color: #fff;
+    color: #004a99;
     margin-bottom: 8px;
 }
 
@@ -123,15 +105,13 @@ button:active {
     transform: translateY(0);
 }
 
-/* Result Section */
-#result {
-    margin-top: 20px;
+/* Ergebnis- und Pop-up-Nachricht */
+#result, #popupMessage {
     font-size: 1.5rem;
     color: #004a99;
     font-weight: 600;
 }
 
-/* Verbesserter Pop-up Message */
 #popupMessage {
     display: none;
     background-color: rgba(0, 74, 153, 0.7);
@@ -182,6 +162,28 @@ button:active {
     background-color: #218838;
 }
 
+/* Einheitlicher Look für die Add-ons-Sektion */
+.addons-section {
+    background: rgba(255, 255, 255, 0.9); /* Hellerer Hintergrund */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    border: 3px solid #004a99; /* Blauer Rand */
+}
+
+.addons-section p {
+    color: #333; /* Dunklere Farbe für besseren Kontrast */
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.addons-section h3 {
+    color: #004a99;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
 /* Einheitlicher Look für die Paket-Tabelle */
 .package-table {
     background: rgba(255, 255, 255, 0.95);
@@ -229,7 +231,7 @@ td {
     h1 {
         font-size: 2rem;
     }
-    .calculator-card, .package-table, .page-speed-box {
+    .calculator-card, .package-table, .page-speed-box, .addons-section {
         padding: 20px;
     }
     button {
@@ -251,5 +253,7 @@ td {
     .page-speed-box {
         padding: 15px;
     }
+    .addons-section {
+        padding: 15px;
+    }
 }
-
