@@ -23,19 +23,19 @@ body {
 
 /* Calculator Card Styling */
 .calculator-card {
-    background: rgba(128, 128, 128, 0.75); /* Transparent Grau */
+    background: rgba(128, 128, 128, 0.85); /* Leicht dunkler für bessere Lesbarkeit */
     padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     margin-bottom: 40px;
 }
 
 /* Headings and Text */
 h1 {
-    color: #0073e6;
+    color: #004a99;
     font-size: 2.5rem;
     margin-bottom: 15px;
 }
@@ -59,38 +59,40 @@ label {
     margin-bottom: 8px;
 }
 
-input, select, button {
+input, select {
     width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
     font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8); /* Hellgrau mit Transparenz */
 }
 
-/* Input Hover & Focus Effects */
 input:focus, select:focus {
-    border-color: #0073e6;
-    box-shadow: 0 0 10px rgba(0, 115, 230, 0.5);
+    border-color: #004a99;
+    box-shadow: 0 0 10px rgba(0, 74, 153, 0.5);
     background: rgba(255, 255, 255, 1);
 }
 
 /* Button Styling */
 button {
-    background-color: #0073e6;
+    background-color: #004a99;
     color: #fff;
     border: none;
     cursor: pointer;
     margin-top: 20px;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    padding: 12px;
-    font-size: 1rem; /* Verkleinert die Buttons für kleine Geräte */
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
 }
 
 button:hover {
-    background-color: #005bb5;
+    background-color: #003370;
     transform: translateY(-2px);
 }
 
@@ -102,168 +104,113 @@ button:active {
 #result {
     margin-top: 20px;
     font-size: 1.5rem;
-    color: #0073e6;
+    color: #004a99;
     font-weight: 600;
 }
 
-
-/* Pop-up Message */
+/* Verbesserter Pop-up Message */
 #popupMessage {
     display: none;
-    background-color: rgba(0, 115, 230, 0.6); /* Dunklerer Hintergrund */
-    color: #fff !important; /* Sicherstellen, dass die Textfarbe wirklich weiß ist */
-    padding: 15px;
-    border-radius: 10px;
+    background-color: rgba(0, 74, 153, 0.7);
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
     text-align: center;
     font-size: 1.2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
-}
-
-#popupMessage p {
-    color: #fff !important; /* Auch für Absätze sicherstellen, dass der Text weiß ist */
-}
-
-#popupMessage h2 {
-    color: #fff !important; /* Falls eine Überschrift da ist, auch sicherstellen, dass sie weiß ist */
 }
 
 #popupMessage button {
     margin-top: 10px;
-    background-color: #ff6347; /* Roter Button zum Schließen */
-    padding: 10px;
-    border: none;
+    background-color: #ff6347;
+    padding: 12px;
     border-radius: 10px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 #popupMessage button:hover {
     background-color: #e53e36;
 }
 
-/* Anfrageformular - Initially hidden */
+/* Einheitlichere Anfrageformular-Optik */
 #requestForm {
     display: none;
     margin-top: 20px;
-    background: rgba(128, 128, 128, 0.75);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(128, 128, 128, 0.85);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     text-align: left;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 #sendQuery {
-    background-color: #28a745; /* Grüner Button für Anfrage */
+    background-color: #28a745;
     color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    margin-top: 10px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
 }
 
 #sendQuery:hover {
     background-color: #218838;
-    transform: translateY(-2px);
 }
 
-#sendQuery:active {
-    transform: translateY(0);
-}
-
-/* Package Table Styling */
+/* Einheitlicher Look für die Paket-Tabelle */
 .package-table {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow-x: auto;  /* Aktiviert horizontalen Scrollbalken */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .package-table h2 {
-    color: #0073e6;
+    color: #004a99;
     font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    table-layout: fixed; /* Sorgt für feste Spaltenbreite */
-    max-width: 100%;
-}
-
-th, td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
 }
 
 th {
-    background-color: #0073e6;
+    background-color: #004a99;
     color: #fff;
 }
 
 td {
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #f0f0f0;
 }
 
 /* Footer Styling */
 .footer {
-    width: 100%;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
-    padding: 10px;
-    position: relative;
-    margin-top: auto; /* Sorgt dafür, dass der Footer immer unten bleibt */
-    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    border-radius: 12px;
 }
 
 .footer a {
     color: #fff;
     text-decoration: none;
-    margin: 0 10px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: color 0.3s;
+    font-weight: bold;
 }
 
 .footer a:hover {
-    color: #0073e6;
+    color: #004a99;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .container {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 2.2rem;
-    }
-}
-
+/* Verbesserte Mobilansicht */
 @media (max-width: 768px) {
-    .calculator-card, .package-table {
-        padding: 15px;
-    }
     h1 {
         font-size: 2rem;
     }
-    h2 {
-        font-size: 1.5rem;
+    .calculator-card, .package-table {
+        padding: 20px;
     }
-    table {
+    button {
         font-size: 1rem;
-    }
-    input, select, button {
-        padding: 10px;
+        padding: 12px;
     }
 }
 
@@ -271,45 +218,11 @@ td {
     h1 {
         font-size: 1.8rem;
     }
-
-    .footer {
-        position: static;
-        margin-top: 20px;
-    }
-
-    .footer a {
-        display: block;
-        margin: 5px 0;
-    }
-
     .calculator-card {
-        padding: 10px;
+        padding: 15px;
     }
-
     .package-table {
-        padding: 10px;
-    }
-
-    button {
-        font-size: 1rem;
-        padding: 12px;
-    }
-
-    .container {
-        padding: 10px;
+        padding: 15px;
     }
 }
 
-@media (max-width: 360px) {
-    h1 {
-        font-size: 1.6rem; /* Noch kleinerer Header */
-    }
-
-    button {
-        padding: 10px; /* Etwas kleinere Buttons */
-    }
-
-    .input-group {
-        margin-bottom: 15px; /* Weniger Abstand für kleine Geräte */
-    }
-}
