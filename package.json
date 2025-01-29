@@ -2,8 +2,7 @@
   "name": "seowebsite",
   "version": "1.0.0",
   "main": "script.js",
-  "scripts": {
-
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -11,9 +10,9 @@
   "dependencies": {
     "axios": "^1.7.9",
     "node-fetch": "^2.6.7",
-    "googleapis": "^39.2.0"  // Hier googleapis hinzugefügt
+    "googleapis": "^39.2.0"
   },
   "engines": {
-    "node": "16.x"  // Node.js-Version festgelegt
+    "node": "16.x"
   }
 }
