@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         checkSeoDataButton.addEventListener('click', function (event) {
             event.preventDefault();
 
-            const seoUrl = document.getElementById('seoShopUrl').value;
+            const seoUrl = document.getElementById('urlInput').value;
             if (!seoUrl) {
                 alert("Please enter a URL.");
                 return;
