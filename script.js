@@ -80,61 +80,77 @@ document.addEventListener('DOMContentLoaded', function () {
         const loadingMessage = document.getElementById('loadingMessage');
         loadingMessage.style.display = "block";
 
-        fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
-            .then(response => response.json())
-            .then(data => {
-                loadingMessage.style.display = "none";
+        const strategies = ['mobile', 'desktop']; // Check both mobile and desktop
 
-                if (!data.lighthouseResult) {
-                    document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available. Please check the URL.</p>`;
-                    return;
-                }
-
-                const audits = data.lighthouseResult.audits;
-                const categories = data.lighthouseResult.categories;
-
-                let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
-
-                detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
-                for (const categoryKey in categories) {
-                    const category = categories[categoryKey];
-                    detailedDataHtml += `
-                        <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
-                }
-
-                detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
-                const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
-                metricKeys.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
-                    }
-                });
-
-                detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
-                const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
-                improvementKeys.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</li>`;
-                    }
-                });
-                detailedDataHtml += `</ul>`;
-
-                // Additional data display
-                detailedDataHtml += `<h3>📈 Other Metrics:</h3>`;
-                const otherMetrics = ['speed-index', 'time-to-interactive', 'first-meaningful-paint'];
-                otherMetrics.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<p>📊 <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
-                    }
-                });
-
-                document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
-                document.getElementById('pagespeedResult').style.display = 'block';
-            })
-            .catch(error => {
-                loadingMessage.style.display = "none";
+        const fetchData = async (strategy) => {
+            try {
+                const response = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=${strategy}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`);
+                const data = await response.json();
+                return data.lighthouseResult ? data.lighthouseResult : null;
+            } catch (error) {
                 console.error('Error:', error);
-                alert("An error occurred. Please try again later.");
+                return null;
+            }
+        };
+
+        const renderData = (data, strategy) => {
+            if (!data) {
+                document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available for ${strategy} version. Please check the URL.</p>`;
+                return;
+            }
+
+            const audits = data.audits;
+            const categories = data.categories;
+
+            let detailedDataHtml = `🌐 <strong>Website Analysis (${strategy.charAt(0).toUpperCase() + strategy.slice(1)}):</strong> ${escapeHTML(url)}<br><br>`;
+
+            // Performance Ratings
+            detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
+            for (const categoryKey in categories) {
+                const category = categories[categoryKey];
+                detailedDataHtml += `
+                    <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
+            }
+
+            // Key Metrics
+            detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
+            const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
+            metricKeys.forEach(key => {
+                if (audits[key]) {
+                    detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
+                }
             });
+
+            // Optimization Suggestions
+            detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
+            const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
+            improvementKeys.forEach(key => {
+                if (audits[key]) {
+                    detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</li>`;
+                }
+            });
+            detailedDataHtml += `</ul>`;
+
+            // Additional data display
+            detailedDataHtml += `<h3>📈 Other Metrics:</h3>`;
+            const otherMetrics = ['speed-index', 'time-to-interactive', 'first-meaningful-paint'];
+            otherMetrics.forEach(key => {
+                if (audits[key]) {
+                    detailedDataHtml += `<p>📊 <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
+                }
+            });
+
+            document.getElementById('pageSpeedData').innerHTML += detailedDataHtml;
+        };
+
+        // Fetch data for mobile and desktop
+        for (let strategy of strategies) {
+            const result = await fetchData(strategy);
+            renderData(result, strategy);
+        }
+
+        loadingMessage.style.display = "none";
+        document.getElementById('pagespeedResult').style.display = 'block';
     });
 });
+
