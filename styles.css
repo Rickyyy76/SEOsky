@@ -22,7 +22,7 @@ body {
 }
 
 /* Einheitliches Boxen-Design mit blauem Rand */
-.box, .page-speed-box, .calculator-card, .addons-section, .package-table, #requestForm {
+.box, .page-speed-box, .calculator-card, .addons-section, .package-table, #requestForm, .seo-check {
     background: rgba(255, 255, 255, 0.95); /* Weiße Hintergrundfarbe mit Transparenz */
     padding: 20px;
     border-radius: 15px;
@@ -30,6 +30,18 @@ body {
     margin-bottom: 30px;
     backdrop-filter: blur(8px);
     border: 3px solid #004a99; /* Blauer Rand */
+}
+
+/* SEO-Check Bereich */
+.seo-check h2 {
+    color: #004a99;
+    font-size: 2rem;
+}
+
+.seo-check p {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
 }
 
 /* Headings and Text */
