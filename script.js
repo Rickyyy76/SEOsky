@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popupMessage = document.getElementById('popupMessage');
     const detailsElement = document.getElementById('calculationDetails');
 
+    // Function to escape HTML
     function escapeHTML(str) {
         return str.replace(/[&<>"']/g, function (match) {
             return {
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Calculate button event listener
     if (calculateButton) {
         calculateButton.addEventListener('click', function (event) {
             event.preventDefault();
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <button onclick="document.getElementById('popupMessage').style.display='none'">Close</button>
             `;
 
-            detailsElement.innerHTML = `
+            detailsElement.innerHTML = ` 
                 <h3>Calculation Breakdown</h3>
                 <ul>
                     <li><strong>Package Cost:</strong> $${packageCost}</li>
@@ -68,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Check PageSpeed event listener
     document.getElementById('checkPagespeed').addEventListener('click', function (event) {
         event.preventDefault();
 
@@ -80,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const loadingMessage = document.getElementById('loadingMessage');
         loadingMessage.style.display = "block";
 
+        // Fetch PageSpeed data
         fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&key=AIzaSyATCd63P4Z8eksy2jX5TCgaKE9bnFziNOk`)
             .then(response => response.json())
             .then(data => {
@@ -94,12 +98,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 const categories = data.lighthouseResult.categories;
 
                 let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
-
                 detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
                 for (const categoryKey in categories) {
                     const category = categories[categoryKey];
-                    detailedDataHtml += `
-                        <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
+                    detailedDataHtml += `<p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
                 }
 
                 detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
@@ -119,20 +121,51 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 detailedDataHtml += `</ul>`;
 
-                // Additional data display
-                detailedDataHtml += `<h3>📈 Other Metrics:</h3>`;
-                const otherMetrics = ['speed-index', 'time-to-interactive', 'first-meaningful-paint'];
-                otherMetrics.forEach(key => {
-                    if (audits[key]) {
-                        detailedDataHtml += `<p>📊 <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
-                    }
-                });
-
                 document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
                 document.getElementById('pagespeedResult').style.display = 'block';
             })
             .catch(error => {
                 loadingMessage.style.display = "none";
+                console.error('Error:', error);
+                alert("An error occurred. Please try again later.");
+            });
+    });
+
+    // SEO Data Checker event listener (similar to the Pagespeed checker)
+    document.getElementById('checkSeoData').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        const seoUrl = document.getElementById('seoShopUrl').value;
+        if (!seoUrl) {
+            alert("Please enter a URL.");
+            return;
+        }
+
+        const seoLoadingMessage = document.getElementById('seoLoadingMessage');
+        seoLoadingMessage.style.display = "block";
+
+        // Fetch SEO data (replace this with actual SEO data API call)
+        fetch(`/seo-checker?url=${encodeURIComponent(seoUrl)}`)
+            .then(response => response.json())
+            .then(data => {
+                seoLoadingMessage.style.display = "none";
+                if (data.error) {
+                    document.getElementById('seoData').innerHTML = `<p style="color: red;">⚠️ Error: No SEO data available. Please check the URL.</p>`;
+                    return;
+                }
+
+                // Process SEO data and display it
+                let seoDetailedHtml = `<h3>SEO Data for: ${escapeHTML(seoUrl)}</h3>`;
+                seoDetailedHtml += `<p><strong>SEO Score:</strong> ${data.seoScore}%</p>`;
+                seoDetailedHtml += `<p><strong>Keywords Ranking:</strong> ${data.keywords}</p>`;
+                seoDetailedHtml += `<p><strong>Meta Tags:</strong> ${data.metaTags}</p>`;
+                seoDetailedHtml += `<p><strong>Suggestions:</strong> ${data.suggestions}</p>`;
+
+                document.getElementById('seoData').innerHTML = seoDetailedHtml;
+                document.getElementById('seoResult').style.display = 'block';
+            })
+            .catch(error => {
+                seoLoadingMessage.style.display = "none";
                 console.error('Error:', error);
                 alert("An error occurred. Please try again later.");
             });
