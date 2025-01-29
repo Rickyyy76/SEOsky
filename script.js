@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Elemente cachen für bessere Performance
+    // Cache elements for better performance
     const calculateButton = document.getElementById('calculateButton');
     const packageInput = document.getElementById('package');
     const numKeywordsInput = document.getElementById('numKeywords');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             popupMessage.innerHTML = `🎉 Your calculation is complete! 🚀<br />
                 <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
                 Feel free to contact us to discuss our offers! 💬<br />
-                <button onclick="document.getElementById('popupMessage').style.display='none'">Schließen</button>
+                <button onclick="document.getElementById('popupMessage').style.display='none'">Close</button>
             `;
 
             detailsElement.innerHTML = `
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         const url = document.getElementById('shopUrl').value;
         if (!url) {
-            alert("Bitte gib eine URL ein.");
+            alert("Please enter a URL.");
             return;
         }
         
@@ -86,35 +86,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 loadingMessage.style.display = "none";
                 
                 if (!data.lighthouseResult) {
-                    document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Fehler: Keine PageSpeed-Daten verfügbar. Bitte überprüfe die URL.</p>`;
+                    document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Error: No PageSpeed data available. Please check the URL.</p>`;
                     return;
                 }
                 
                 const audits = data.lighthouseResult.audits;
                 const categories = data.lighthouseResult.categories;
                 
-                let detailedDataHtml = `🌐 <strong>Analyse der Webseite:</strong> ${escapeHTML(url)}<br><br>`;
+                let detailedDataHtml = `🌐 <strong>Website Analysis:</strong> ${escapeHTML(url)}<br><br>`;
                 
-                detailedDataHtml += `<h3>📊 Leistungsbewertung:</h3>`;
+                detailedDataHtml += `<h3>📊 Performance Rating:</h3>`;
                 for (const categoryKey in categories) {
                     const category = categories[categoryKey];
                     detailedDataHtml += `
                         <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
                 }
                 
-                detailedDataHtml += `<h3>⏱️ Wichtige Metriken:</h3>`;
+                detailedDataHtml += `<h3>⏱️ Key Metrics:</h3>`;
                 const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
                 metricKeys.forEach(key => {
                     if (audits[key]) {
-                        detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'Keine Daten')}</p>`;
+                        detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</p>`;
                     }
                 });
                 
-                detailedDataHtml += `<h3>💡 Optimierungsvorschläge:</h3><ul>`;
+                detailedDataHtml += `<h3>💡 Optimization Suggestions:</h3><ul>`;
                 const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
                 improvementKeys.forEach(key => {
                     if (audits[key]) {
-                        detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'Keine Daten')}</li>`;
+                        detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'No Data')}</li>`;
                     }
                 });
                 detailedDataHtml += `</ul>`;
@@ -125,8 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 loadingMessage.style.display = "none";
                 console.error('Error:', error);
-                alert("Ein Fehler ist aufgetreten. Bitte versuche es später erneut.");
+                alert("An error occurred. Please try again later.");
             });
     });
 });
-
