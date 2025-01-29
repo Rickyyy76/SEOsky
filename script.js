@@ -1,55 +1,56 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Event Listener für den Calculate-Button
+    // Elemente cachen für bessere Performance
     const calculateButton = document.getElementById('calculateButton');
+    const packageInput = document.getElementById('package');
+    const numKeywordsInput = document.getElementById('numKeywords');
+    const industryInput = document.getElementById('industry');
+    const rankingInput = document.getElementById('rankingPosition');
+    const resultElement = document.getElementById('estimatedCost');
+    const popupMessage = document.getElementById('popupMessage');
+    const detailsElement = document.getElementById('calculationDetails');
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>"']/g, function (match) {
+            return ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            })[match];
+        });
+    }
+
     if (calculateButton) {
         calculateButton.addEventListener('click', function (event) {
             event.preventDefault();
 
-            // Eingabewerte abrufen
-            const packageCost = parseFloat(document.getElementById('package').value);
-            let numKeywords = parseInt(document.getElementById('numKeywords').value) || 0;
-            const industryMultiplier = parseFloat(document.getElementById('industry').value);
-            const rankingMultiplier = parseFloat(document.getElementById('rankingPosition').value);
+            const packageCost = parseFloat(packageInput.value);
+            let numKeywords = parseInt(numKeywordsInput.value) || 0;
+            const industryMultiplier = parseFloat(industryInput.value);
+            const rankingMultiplier = parseFloat(rankingInput.value);
 
-            // Wenn das Feld für die Keywords leer ist, setzen wir es basierend auf dem Paket
             if (numKeywords === 0) {
-                if (packageCost === 250) {
-                    numKeywords = 10; // 10 Keywords für das Basis-Paket
-                } else if (packageCost === 500) {
-                    numKeywords = 30; // 30 Keywords für das Standard-Paket
-                } else if (packageCost === 1000) {
-                    numKeywords = 50; // 50+ Keywords für das Premium-Paket
-                }
+                numKeywords = packageCost === 250 ? 10 : packageCost === 500 ? 30 : 50;
             }
 
-            // Berechnung der zusätzlichen Kosten für Keywords
-            const additionalCost = numKeywords * 10; // $10 pro Keyword
-            let totalCost = packageCost + additionalCost;
+            const additionalCost = numKeywords * 10;
+            let totalCost = (packageCost + additionalCost) * industryMultiplier * rankingMultiplier;
 
-            // Anwendung der Multiplikatoren für Branche und Ranking-Position
-            totalCost *= industryMultiplier;
-            totalCost *= rankingMultiplier;
-
-            // Add-on Kosten
             const localSeoCost = document.getElementById('localSeo').checked ? 100 : 0;
             const technicalSeoCost = document.getElementById('technicalSeo').checked ? 150 : 0;
             const competitorAnalysisCost = document.getElementById('competitorAnalysis').checked ? 200 : 0;
             totalCost += localSeoCost + technicalSeoCost + competitorAnalysisCost;
 
-            // Ergebnis anzeigen
-            const resultElement = document.getElementById('estimatedCost');
             resultElement.textContent = `$${totalCost.toFixed(2)}`;
 
-            // Popup-Nachricht anzeigen
-            const popupMessage = document.getElementById('popupMessage');
             popupMessage.style.display = "block";
             popupMessage.innerHTML = `🎉 Your calculation is complete! 🚀<br />
                 <strong>Estimated Cost: $${totalCost.toFixed(2)}</strong><br />
                 Feel free to contact us to discuss our offers! 💬<br />
-                Contact us on <a href="https://www.instagram.com/76.rickyyy?igsh=d2dldDgya3BhYXRh&utm_source=qr" target="_blank">Instagram</a> or <a href="https://wonderl.ink/@rickyyy" target="_blank">Linktree</a>.`;
+                <button onclick="document.getElementById('popupMessage').style.display='none'">Schließen</button>
+            `;
 
-            // Detaillierte Berechnung anzeigen
-            const detailsElement = document.getElementById('calculationDetails');
             detailsElement.innerHTML = `
                 <h3>Calculation Breakdown</h3>
                 <ul>
@@ -67,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event Listener für den Analyze-Button
     document.getElementById('checkPagespeed').addEventListener('click', function (event) {
         event.preventDefault();
         
@@ -86,27 +86,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 loadingMessage.style.display = "none";
                 
                 if (!data.lighthouseResult) {
-                    alert("Keine PageSpeed-Daten verfügbar.");
+                    document.getElementById('pageSpeedData').innerHTML = `<p style="color: red;">⚠️ Fehler: Keine PageSpeed-Daten verfügbar. Bitte überprüfe die URL.</p>`;
                     return;
                 }
                 
                 const audits = data.lighthouseResult.audits;
                 const categories = data.lighthouseResult.categories;
                 
-                let detailedDataHtml = `🌐 <strong>Analyse der Webseite:</strong> ${url}<br><br>`;
+                let detailedDataHtml = `🌐 <strong>Analyse der Webseite:</strong> ${escapeHTML(url)}<br><br>`;
                 
                 detailedDataHtml += `<h3>📊 Leistungsbewertung:</h3>`;
                 for (const categoryKey in categories) {
                     const category = categories[categoryKey];
                     detailedDataHtml += `
-                        <p>✅ <strong>${category.title}:</strong> ${category.score * 100}%</p>`;
+                        <p>✅ <strong>${escapeHTML(category.title)}:</strong> ${category.score * 100}%</p>`;
                 }
                 
                 detailedDataHtml += `<h3>⏱️ Wichtige Metriken:</h3>`;
                 const metricKeys = ['first-contentful-paint', 'largest-contentful-paint', 'cumulative-layout-shift', 'total-blocking-time', 'interactive'];
                 metricKeys.forEach(key => {
                     if (audits[key]) {
-                        detailedDataHtml += `<p>⚡ <strong>${audits[key].title}:</strong> ${audits[key].displayValue || 'Keine Daten'}</p>`;
+                        detailedDataHtml += `<p>⚡ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'Keine Daten')}</p>`;
                     }
                 });
                 
@@ -114,13 +114,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const improvementKeys = ['uses-optimized-images', 'uses-text-compression', 'unused-css-rules', 'render-blocking-resources'];
                 improvementKeys.forEach(key => {
                     if (audits[key]) {
-                        detailedDataHtml += `<li>🛠️ <strong>${audits[key].title}:</strong> ${audits[key].displayValue || 'Keine Daten'}</li>`;
+                        detailedDataHtml += `<li>🛠️ <strong>${escapeHTML(audits[key].title)}:</strong> ${escapeHTML(audits[key].displayValue || 'Keine Daten')}</li>`;
                     }
                 });
                 detailedDataHtml += `</ul>`;
                 
-                const resultElement = document.getElementById('pageSpeedData');
-                resultElement.innerHTML = detailedDataHtml;
+                document.getElementById('pageSpeedData').innerHTML = detailedDataHtml;
                 document.getElementById('pagespeedResult').style.display = 'block';
             })
             .catch(error => {
